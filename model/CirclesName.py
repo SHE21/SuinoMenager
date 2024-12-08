@@ -1,7 +1,7 @@
 import enum
 
 
-class CirclesName(enum):
+class CirclesName(enum.Enum):
     GESTATION = "gestation"
     MATERNITY = "maternity"
     CRECHE = "creche"

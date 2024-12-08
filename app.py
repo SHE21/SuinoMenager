@@ -4,11 +4,12 @@ from PyQt5.QtWidgets import (
 )
 
 from presentation.SuinoForm import SuinoForm
+from presentation.main_panel import MainPanel
 
 def main():
     app = QApplication(sys.argv)
-    form = SuinoForm()
-    form.show()
+    main_panel = MainPanel()
+    main_panel.show()
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
