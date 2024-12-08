@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QLabel, QHBoxLayout
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QDialog, QLineEdit, QDialogButtonBox
 
+from model.Suino import Suino
 from presentation.DetailsWidget import DetailsWidget
 from presentation.DialogWidget import DialogWidget
 from presentation.style.style import Style
@@ -22,11 +23,11 @@ class ListWidget(QWidget):
 
         self.list_widget.show()
 
-    def addItem(self, id: str):
+    def addItem(self, suino: Suino):
         item = QListWidgetItem()
         item_widget = QWidget()
         line_text = QLabel(f"Suino {id}")
-        line_push_button = QPushButton("Detalhes")
+        line_push_button = QPushButton("suino.id_tag")
         line_push_button.clicked.connect(lambda:self.show_details(id))
         line_push_button.setFixedSize(100, 50)
         item_layout = QHBoxLayout()

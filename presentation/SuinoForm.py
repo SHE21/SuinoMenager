@@ -2,11 +2,13 @@ import sys
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QMessageBox, QComboBox)
 
 from model.Suino import Suino
+from presentation.listeners.OnClickListener import OnClickListener
 from presentation.style.style import Style
 
 class SuinoForm(QWidget):
-    def __init__(self):
+    def __init__(self, on_click_listener: OnClickListener):
         super().__init__()
+        self.on_click_listener = on_click_listener
         self.setWindowTitle("Cadastro de Suínos")
     
 
@@ -36,6 +38,7 @@ class SuinoForm(QWidget):
 
         # Botão de salvar
         self.save_button = QPushButton("Salvar")
+        self.save_button.clicked.connect(lambda: self.save_data("salvar"))
         self.save_button.size = 14
         self.save_button.setStyleSheet(Style().FONTE_BUTTON_18PX)
 
@@ -54,4 +57,7 @@ class SuinoForm(QWidget):
         layout.addWidget(self.save_button)
 
         self.setLayout(layout)
+
+    def save_data(self, suino: str):
+        self.on_click_listener.onClick(suino)
 

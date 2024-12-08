@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import (QWidget, QLabel, QApplication, QPushButton, QVBoxLa
 
 from presentation.ListWidget import ListWidget
 from presentation.SuinoForm import SuinoForm
+from presentation.listeners.OnClickListener import OnClickListener
 from presentation.style.style import Style
 
 class MainPanel(QWidget):
@@ -24,8 +25,8 @@ class MainPanel(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(self.save_button)
 
-        list = ListWidget()
-        layout.addWidget(list)
+        self.list = ListWidget()
+        layout.addWidget(self.list)
         self.setLayout(layout)
 
         screen_geometry = QApplication.primaryScreen().availableGeometry()
@@ -38,5 +39,8 @@ class MainPanel(QWidget):
 
     def open_form_add_suino(self):
         if not self.add_suino or not self.add_suino.isVisible():
-            self.add_suino = SuinoForm()
+            self.add_suino = SuinoForm(self.fall_back())
             self.add_suino.show()
+
+    def fall_back(self)-> OnClickListener:
+        return OnClickListener().onClick
