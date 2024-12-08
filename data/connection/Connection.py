@@ -14,8 +14,7 @@ class Connection:
         """Cria a conexão com o banco de dados MySQL."""
         try:
             self.db = MySQLDatabase(self.db_name, user=self.user, password=self.password, host=self.host, port=self.port)
-            self.db.connect()
-            print("✅ Conexão com o banco de dados estabelecida com sucesso!")
+            return self.db.connect()
         except OperationalError as e:
             print(f"❌ Erro ao conectar ao banco de dados: {e}")
 
@@ -28,6 +27,3 @@ class Connection:
     def get_db(self):
         """Retorna o objeto do banco de dados."""
         return self.db
-
-if __name__ == "__main__":
-    Connection().connect()
