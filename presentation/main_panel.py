@@ -39,8 +39,5 @@ class MainPanel(QWidget):
 
     def open_form_add_suino(self):
         if not self.add_suino or not self.add_suino.isVisible():
-            self.add_suino = SuinoForm(self.fall_back())
+            self.add_suino = SuinoForm()
             self.add_suino.show()
-
-    def fall_back(self)-> OnClickListener:
-        return OnClickListener().onClick

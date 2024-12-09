@@ -10,6 +10,13 @@ class Style():
             padding: 5px;
         }"""
 
+        self.FONTE_EDIT_DATE_18PX = """QDateEdit {
+            font-size: 18px;
+            border: 2px solid gray;
+            border-radius: 5px;
+            padding: 5px;
+        }"""
+
         self.FONTE_BUTTON_18PX = """QPushButton {
             font-size: 18px;
             padding: 8px;
@@ -21,8 +28,10 @@ class Style():
         }"""
 
         self.FONTE_COMBO_BOX = """QComboBox {
-            height: 10px;
-            font-size: 18px;
+           font-size: 18px;
+            border: 2px solid gray;
+            border-radius: 5px;
+            padding: 5px;
         }"""
         self.LIST = """QListWidget {
             background-color:;

@@ -1,7 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QLabel, QHBoxLayout
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QDialog, QLineEdit, QDialogButtonBox
+from PyQt5.QtWidgets import QWidget, QListWidget, QListWidgetItem, QPushButton, QLabel, QHBoxLayout, QDialog
 
+from data.connection.Connection import Connection
+from data.service.SuinoService import SuinoService
 from model.Suino import Suino
 from presentation.DetailsWidget import DetailsWidget
 from presentation.DialogWidget import DialogWidget
@@ -10,26 +11,27 @@ from presentation.style.style import Style
 class ListWidget(QWidget):
     def __init__(self):
         super().__init__()
-        # Criar a QListWidget
+        self.connection = Connection()
+        self.suino_service = SuinoService(self.connection)
         self.list_widget = QListWidget(self)
         self.list_widget.setStyleSheet(Style().LIST)
         self.list_widget.setFixedSize(1890, 820)
 
         self.details_widget = None
 
-        # Adicionar itens à lista com widgets personalizados
-        for i in range(5):  # Vamos adicionar 5 itens para exemplificar
-            self.addItem(f"{i}")
+        suino_list = self.suino_service.get_suinos()
+        for suino in suino_list:
+            self.addItem(suino)
 
         self.list_widget.show()
 
     def addItem(self, suino: Suino):
         item = QListWidgetItem()
         item_widget = QWidget()
-        line_text = QLabel(f"Suino {id}")
-        line_push_button = QPushButton("suino.id_tag")
-        line_push_button.clicked.connect(lambda:self.show_details(id))
-        line_push_button.setFixedSize(100, 50)
+        line_text = QLabel(f"TAG: {suino.id_tag}")
+        line_push_button = QPushButton("Detalhes")
+        line_push_button.clicked.connect(lambda:self.show_details(suino.id_uuid))
+        line_push_button.setFixedSize(100, 30)
         item_layout = QHBoxLayout()
         item_layout.addWidget(line_text)
         item_layout.addWidget(line_push_button)
