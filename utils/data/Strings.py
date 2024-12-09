@@ -21,3 +21,11 @@ suino_races = [
     "Porco Tatu",
     "Porco Canastrão"
 ]
+
+circle_list = [
+    "Maternidade - 0",
+    "Creche - 1",
+    "Crescimento - 2",
+    "Terminação - 3",
+    "Abate - 4"
+]

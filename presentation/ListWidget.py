@@ -53,5 +53,5 @@ class ListWidget(QWidget):
     def show_details(self, title: str):
         if not self.details_widget or not self.details_widget.isVisible():
             self.details_widget = DetailsWidget(title)
-            self.details_widget.show()
+            self.details_widget.exec_()
 
