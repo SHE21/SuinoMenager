@@ -34,9 +34,17 @@ class Style():
             padding: 5px;
         }"""
         self.LIST = """QListWidget {
-            background-color:;
+            background-color:#dedede;
         }"""
 
         self.LIST_BUTTON = """QPushButton {
             background-color:;
         }"""
+
+        self.BUTTON_DIALOG = """
+            QDialogButtonBox QPushButton {
+                font-size: 16px;    /* Tamanho de fonte */
+                padding: 10px 20px; /* Espaçamento interno */
+                min-width: 150px;   /* Largura mínima do botão */
+            }
+        """

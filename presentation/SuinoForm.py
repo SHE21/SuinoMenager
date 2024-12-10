@@ -1,8 +1,9 @@
 from datetime import date
 import sys
 import uuid
-from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QDateEdit, QComboBox)
+from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QDateEdit, QComboBox, QDialog, QDialogButtonBox)
 from PyQt5.QtCore import QDate
+from PyQt5.QtCore import Qt
 
 from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
@@ -11,16 +12,27 @@ from presentation.listeners.OnClickListener import OnClickListener
 from presentation.style.style import Style
 from utils.data import Strings
 
-class SuinoForm(QWidget):
-    def __init__(self, on: OnClickListener):
+class SuinoForm(QDialog):
+    def __init__(self):
         super().__init__()
+        self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         self.connection = Connection()
         self.suino_service = SuinoService(self.connection)
         self.setWindowTitle("Cadastro de Suínos")
-    
-
         self.setFixedWidth(500)
         # Labels e campos de texto
+
+        button_box = QDialogButtonBox()
+        button_box.setStyleSheet(Style().BUTTON_DIALOG)
+        save_button = QPushButton("Salvar")
+        cancel_button = QPushButton("Cancelar")
+ 
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+
+        # Adicionar os botões ao QDialogButtonBox
+        button_box.addButton(cancel_button, QDialogButtonBox.RejectRole)
+        button_box.addButton(save_button, QDialogButtonBox.AcceptRole)
 
         self.id_tag_label = QLabel("ID Tag:")
         self.id_tag_label.setStyleSheet(Style().FONTE_LABEL)
@@ -58,13 +70,6 @@ class SuinoForm(QWidget):
         self.origin_label.setFixedHeight(30)
         self.origin_input = QLineEdit()
         self.origin_input.setStyleSheet(Style().FONTE_EDIT_18PX)
-        on.onClick("testtestetes")
-
-        # Botão de salvar
-        self.save_button = QPushButton("Salvar")
-        self.save_button.clicked.connect(self.save_data)
-        self.save_button.size = 14
-        self.save_button.setStyleSheet(Style().FONTE_BUTTON_18PX)
 
         # Layouts
         layout = QVBoxLayout()
@@ -84,11 +89,10 @@ class SuinoForm(QWidget):
         layout.addWidget(self.origin_label)
         layout.addWidget(self.origin_input)
 
-        layout.addWidget(self.save_button)
-
+        layout.addWidget(button_box)
         self.setLayout(layout)
 
-    def save_data(self):
+    def accept(self):
         id_tag=self.id_tag_input.text()
         race=self.race_input.currentText()
         date_birth=self.date_birth_input.date().toString("yyyy-MM-dd")

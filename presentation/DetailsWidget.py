@@ -10,6 +10,7 @@ from data.service.CircleService import CircleService
 from data.service.SuinoService import SuinoService
 from presentation.CircleForm import CircleForm
 from presentation.CircleListWidget import CircleListWdiget
+from presentation.listeners.IDialogCallback import IDialogCallback
 from presentation.listeners.OnClickListener import OnClickListener
 from utils.calculus import calculate_days
 
@@ -41,6 +42,7 @@ class DetailsWidget(QDialog):
         super().__init__()
         self.connection = Connection()
         self.suino_service = SuinoService(self.connection)
+        self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         suino = self.suino_service.get_suino_by_uuid(uuid)
         self.circle_form = None
         self.setWindowTitle("Detalhes de Suínos")
@@ -75,7 +77,7 @@ class DetailsWidget(QDialog):
         layout.addWidget(btn_add_circle)
 
         circle_list_widget = CircleListWdiget(id_uuid=suino.id_uuid)
-        #circle_list_widget.load_list()
+        circle_list_widget.load_list()
         if len(circle_list_widget.get_circle_list()) == 5:
             btn_add_circle.setEnabled(False)
         else:
@@ -86,6 +88,10 @@ class DetailsWidget(QDialog):
         layout.addLayout(box_layout)
         self.setLayout(layout)
         self.setFixedSize(820, 720)
+
+    def on_dialog_closed(self, data):
+        # Atualizar a label com os dados recebidos do diálogo
+        print(f"Dado recebido: {data}")
 
     def open_circle_form(self, id_uuid_suino: str):
         if not self.circle_form or not self.circle_form.isVisible():

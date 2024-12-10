@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QListWidget, QListWidgetItem, QPushButton, QLabel, QHBoxLayout, QDialog
+from PyQt5.QtWidgets import QWidget, QListWidget, QListWidgetItem, QPushButton, QLabel, QHBoxLayout, QDialog, QSizePolicy
 
 from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
@@ -8,14 +8,14 @@ from presentation.DetailsWidget import DetailsWidget
 from presentation.DialogWidget import DialogWidget
 from presentation.style.style import Style
 
-class ListWidget(QWidget):
-    def __init__(self):
+class SuinoListWidget(QWidget):
+    def __init__(self, screen_geometry):
         super().__init__()
         self.connection = Connection()
         self.suino_service = SuinoService(self.connection)
         self.list_widget = QListWidget(self)
         self.list_widget.setStyleSheet(Style().LIST)
-        self.list_widget.setFixedSize(1890, 820)
+        self.list_widget.setFixedSize(screen_geometry.width()-180, screen_geometry.height()-40)
 
         self.details_widget = None
 
@@ -33,7 +33,7 @@ class ListWidget(QWidget):
         line_push_button.clicked.connect(lambda:self.show_details(suino.id_uuid))
         line_push_button.setFixedSize(100, 30)
         item_layout = QHBoxLayout()
-        item_layout.addWidget(line_text)
+        item_layout.addWidget(line_text, 3)
         item_layout.addWidget(line_push_button)
         item_widget.setLayout(item_layout)
         item.setSizeHint(item_widget.sizeHint())
