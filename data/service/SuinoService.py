@@ -11,7 +11,7 @@ class SuinoService:
         self.connection.connect()
         self.suino_model = SuinoModel.get_suino_model(connection.get_db())
 
-    def create_suino(self, id_tag: str, id_uuid: str, race: str, date_birth: date, gender: str, origin: str):
+    def create_suino(self, id_tag: str, id_uuid: str, race: str, date_birth: date, gender: str, origin: str, registration_date: date):
         try:
             result = self.suino_model.create(
                 id_tag=id_tag,
@@ -19,7 +19,8 @@ class SuinoService:
                 race=race,
                 date_birth=date_birth,
                 gender=gender,
-                origin=origin
+                origin=origin,
+                registration_date=registration_date
             )
             return result
 
@@ -36,7 +37,8 @@ class SuinoService:
             race=suino_result.race,
             date_birth=suino_result.date_birth,
             gender=suino_result.gender,
-            origin=suino_result.origin
+            origin=suino_result.origin,
+            registration_date=suino_result.registration_date
         )
     
     def get_suinos(self) -> list[Suino]:
@@ -52,7 +54,8 @@ class SuinoService:
                     suino.race,
                     suino.date_birth,
                     suino.gender,
-                    suino.origin
+                    suino.origin,
+                    suino.registration_date
                 )
             )
         return suino_list_result

@@ -1,3 +1,4 @@
+from datetime import datetime
 import uuid
 from PyQt5.QtWidgets import (QDialogButtonBox, QLineEdit, QPushButton, QVBoxLayout, QDateEdit, QFormLayout, QDialog, QComboBox)
 from PyQt5.QtCore import QDate
@@ -54,6 +55,7 @@ class CircleForm(QDialog):
         end_date = "0000-00-00"
         observation = self.observation_input.text()
         is_ended = False
+        registration_date=datetime.now().strftime("%Y-%m-%d")
 
         result = self.circle_service.create_circle(
             id_uuid=uuid.uuid4(),
@@ -62,7 +64,8 @@ class CircleForm(QDialog):
             start_date=start_date,
             end_date=end_date,
             observation=observation,
-            is_ended=is_ended
+            is_ended=is_ended,
+            registration_date=registration_date
         )
 
         if result is not None:

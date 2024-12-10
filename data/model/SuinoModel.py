@@ -10,6 +10,7 @@ def get_suino_model(db_connection: MySQLDatabase):
             date_birth = DateField()
             gender = CharField(max_length=10)
             origin = CharField(max_length=100)
+            registration_date = DateField()
 
             class Meta:
                 database = db_connection # Define o banco de dados para o modelo

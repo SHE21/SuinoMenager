@@ -17,7 +17,8 @@ class CircleService():
             start_date: date,
             end_date: date,
             observation: str,
-            is_ended: bool):
+            is_ended: bool,
+            registration_date: date):
         try:
             result = self.circle_model.create(
                 id_uuid=id_uuid,
@@ -26,7 +27,8 @@ class CircleService():
                 start_date=start_date,
                 end_date=end_date,
                 observation=observation,
-                is_ended=is_ended
+                is_ended=is_ended,
+                registration_date=registration_date
             )
             return result
 
@@ -43,7 +45,8 @@ class CircleService():
             end_date="0000-00-00",
             observation=circle_result.observation,
             daily_status=[],
-            is_ended=circle_result.is_ended
+            is_ended=circle_result.is_ended,
+            registration_date=circle_result.registration_date
         )
     
     def get_circles_by_uuid_suino(self, id_uuid_suino: str) -> list[Circle]:
@@ -61,7 +64,8 @@ class CircleService():
                     end_date=circle.end_date,
                     observation=circle.observation,
                     daily_status=[],
-                    is_ended=circle.is_ended
+                    is_ended=circle.is_ended,
+                    registration_date=circle.registration_date
                 )
             )
         return circle_list

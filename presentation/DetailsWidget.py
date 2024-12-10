@@ -70,7 +70,7 @@ class DetailsWidget(QDialog):
         grid.addWidget(self.label_title("Raça:"), 3, 0)
         grid.addWidget(self.label_value(suino.race), 3, 1)
 
-        grid.addWidget(self.label_title("Origem:"), 4, 0)
+        grid.addWidget(self.label_title("Origem/Lote:"), 4, 0)
         grid.addWidget(self.label_value(suino.origini), 4, 1)
 
         layout.addLayout(grid)

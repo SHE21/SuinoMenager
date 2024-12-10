@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 import sys
 import uuid
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QDateEdit, QComboBox, QDialog, QDialogButtonBox)
@@ -98,6 +98,7 @@ class SuinoForm(QDialog):
         date_birth=self.date_birth_input.date().toString("yyyy-MM-dd")
         gender=self.gender_input.currentText()
         origin=self.origin_input.text()
+        registration_date=datetime.now().strftime("%Y-%m-%d")
 
         if not id_tag or not race or not gender or not origin:
             show_error_message("Todos os campos precisam ser preenchidos!")
@@ -109,7 +110,8 @@ class SuinoForm(QDialog):
                 race=race,
                 date_birth=date_birth,
                 gender=gender,
-                origin=origin
+                origin=origin,
+                registration_date=registration_date
             )
 
             print(f"id_tag:{id_tag}, "
