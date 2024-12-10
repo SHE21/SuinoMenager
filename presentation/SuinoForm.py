@@ -7,11 +7,12 @@ from PyQt5.QtCore import QDate
 from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
 from presentation.dialogs.Messagens import show_error_message
+from presentation.listeners.OnClickListener import OnClickListener
 from presentation.style.style import Style
 from utils.data import Strings
 
 class SuinoForm(QWidget):
-    def __init__(self):
+    def __init__(self, on: OnClickListener):
         super().__init__()
         self.connection = Connection()
         self.suino_service = SuinoService(self.connection)
@@ -57,6 +58,7 @@ class SuinoForm(QWidget):
         self.origin_label.setFixedHeight(30)
         self.origin_input = QLineEdit()
         self.origin_input.setStyleSheet(Style().FONTE_EDIT_18PX)
+        on.onClick("testtestetes")
 
         # Botão de salvar
         self.save_button = QPushButton("Salvar")

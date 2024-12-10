@@ -7,6 +7,8 @@ from presentation.style.style import Style
 
 class CircleListWdiget(QWidget):
     def __init__(self, id_uuid: str):
+        self.id_uuid = id_uuid
+        self.circle_list_result = []
         super().__init__()
         self.connection = Connection()
         self.cricle_service = CircleService(self.connection)
@@ -14,13 +16,6 @@ class CircleListWdiget(QWidget):
         self.circle_list = QListWidget(self)
         self.circle_list.setStyleSheet(Style().LIST)
         self.circle_list.setFixedSize(794, 290)
-
-        self.circle_list_result = self.cricle_service.get_circles_by_uuid_suino(id_uuid)
-
-        for circle in self.circle_list_result:
-            print(circle.circle_name)
-            self.addItem(circle)
-
         self.circle_list.show()
 
     def addItem(self, circle: Circle):
@@ -37,6 +32,14 @@ class CircleListWdiget(QWidget):
         item.setSizeHint(item_widget.sizeHint())
         self.circle_list.addItem(item)
         self.circle_list.setItemWidget(item, item_widget)
+
+    def load_list(self):
+        self.circle_list.clear()
+        self.circle_list_result = self.cricle_service.get_circles_by_uuid_suino(self.id_uuid)
+        for circle in self.circle_list_result:
+            print(circle.circle_name)
+            self.addItem(circle)
+
 
     def get_circle_list(self):
         return self.circle_list_result

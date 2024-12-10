@@ -4,10 +4,11 @@ from PyQt5.QtCore import QDate
 
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
+from presentation.listeners.IDialogCallback import IDialogCallback
 from utils.data import Strings
 
 class CircleForm(QDialog):
-    def __init__(self, id_uuid_suino: str):
+    def __init__(self, id_uuid_suino: str, callback: IDialogCallback):
         super().__init__()
         self.connection = Connection()
         self.circle_service = CircleService(self.connection)
@@ -62,6 +63,3 @@ class CircleForm(QDialog):
             print("Ciclo salvo")
         else:
             print("Erro ao salva o ciclo")
-
-    def remove_circle():
-        

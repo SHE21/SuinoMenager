@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from PyQt5.QtWidgets import (QWidget, QLabel, QApplication, QPushButton, QVBoxLayout, QMessageBox, QComboBox)
 
 from presentation.ListWidget import ListWidget
@@ -32,8 +33,6 @@ class MainPanel(QWidget):
         screen_geometry = QApplication.primaryScreen().availableGeometry()
         self.setGeometry(screen_geometry)
 
-
-
         self.setMinimumSize(400, 300)  # Tamanho mínimo
         self.setMaximumSize(1920, 1080)  # Tamanho máximo (ajuste conforme necessário)
 
@@ -41,3 +40,6 @@ class MainPanel(QWidget):
         if not self.add_suino or not self.add_suino.isVisible():
             self.add_suino = SuinoForm()
             self.add_suino.show()
+
+    def onClose(text: str):
+        print(text)

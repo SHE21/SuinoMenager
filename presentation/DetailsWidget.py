@@ -10,6 +10,7 @@ from data.service.CircleService import CircleService
 from data.service.SuinoService import SuinoService
 from presentation.CircleForm import CircleForm
 from presentation.CircleListWidget import CircleListWdiget
+from presentation.listeners.OnClickListener import OnClickListener
 from utils.calculus import calculate_days
 
 STYLE_GRID ="""QGridLayout {
@@ -74,6 +75,7 @@ class DetailsWidget(QDialog):
         layout.addWidget(btn_add_circle)
 
         circle_list_widget = CircleListWdiget(id_uuid=suino.id_uuid)
+        #circle_list_widget.load_list()
         if len(circle_list_widget.get_circle_list()) == 5:
             btn_add_circle.setEnabled(False)
         else:

@@ -5,5 +5,5 @@ from model.Suino import Suino
 
 class OnClickListener(ABC):
     @abstractmethod
-    def onClick(suino: str):
+    def onClick(text: str):
         pass
