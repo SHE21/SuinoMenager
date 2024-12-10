@@ -22,6 +22,7 @@ class CircleListWdiget(QWidget):
         item = QListWidgetItem()
         item_widget = QWidget()
         line_text = QLabel(f"{circle.circle_name}")
+        line_text.setStyleSheet(Style().FONTE_ITEN_LIST_1)
         line_push_button = QPushButton("Detalhes")
         #line_push_button.clicked.connect(lambda:self.show_details(suino.id_uuid))
         line_push_button.setFixedSize(100, 30)

@@ -5,8 +5,10 @@ from PyQt5.QtCore import Qt
 
 from presentation.SuinoListWidget import SuinoListWidget
 from presentation.SuinoForm import SuinoForm
+from presentation.listeners import IDialogCallback
 from presentation.style.style import Style
 from utils.calculus import get_taskbar_dimensions
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 STYLE_DOCK = """QWidget {
             background-color:;
@@ -29,6 +31,7 @@ class MainPanel(QMainWindow):
         layout.setContentsMargins(0, 0, 0, 0)
 
         self.suino_list_widget = SuinoListWidget(screen_geometry)
+        self.suino_list_widget.load_list()
         layout.addWidget(self.suino_list_widget)
 
         self.create_toolbar()
@@ -79,10 +82,16 @@ class MainPanel(QMainWindow):
     def show_message():
         print("teste")
 
+    @pyqtSlot()
     def open_form_add_suino(self):
-        if not self.add_suino or not self.add_suino.isVisible():
-            self.add_suino = SuinoForm()
-            self.add_suino.exec_()
+        self.add_suino = SuinoForm()
+        self.add_suino.dialog_closed.connect(self.on_dialog_closed)
+        self.add_suino.exec_()
 
-    def onClose(text: str):
-        print(text)
+    @pyqtSlot(bool)
+    def on_dialog_closed(self, result):
+        if result:
+            self.suino_list_widget.load_list()
+            print("O diálogo foi fechado com OK.")
+        else:
+            print("O diálogo foi fechado com Cancelar.")

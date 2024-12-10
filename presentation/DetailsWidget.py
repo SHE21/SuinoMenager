@@ -1,8 +1,9 @@
 from datetime import datetime
 import uuid
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGridLayout, QPushButton, QDialog
-from PyQt5.QtWidgets import QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QVBoxLayout, QGroupBox
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import pyqtSlot
 
 
 from data.connection.Connection import Connection
@@ -76,27 +77,41 @@ class DetailsWidget(QDialog):
         layout.addLayout(grid)
         layout.addWidget(btn_add_circle)
 
-        circle_list_widget = CircleListWdiget(id_uuid=suino.id_uuid)
-        circle_list_widget.load_list()
-        if len(circle_list_widget.get_circle_list()) == 5:
+        group_box = QGroupBox("Clique para Expandir/Recolher")
+        group_box.setCheckable(True)
+        group_box.setChecked(True)  # Inicialmente expandido
+
+        self.circle_list_widget = CircleListWdiget(id_uuid=suino.id_uuid)
+        self.circle_list_widget.load_list()
+        if len(self.circle_list_widget.get_circle_list()) == 5:
             btn_add_circle.setEnabled(False)
         else:
             btn_add_circle.setEnabled(True)
 
         box_layout = QVBoxLayout()
-        box_layout.addWidget(circle_list_widget)
+        box_layout.addWidget(self.circle_list_widget)
         layout.addLayout(box_layout)
         self.setLayout(layout)
-        self.setFixedSize(820, 720)
+        self.setFixedSize(820, 558)
 
     def on_dialog_closed(self, data):
         # Atualizar a label com os dados recebidos do diálogo
         print(f"Dado recebido: {data}")
 
+    @pyqtSlot()
     def open_circle_form(self, id_uuid_suino: str):
         if not self.circle_form or not self.circle_form.isVisible():
             self.circle_form = CircleForm(id_uuid_suino)
+            self.circle_form.dialog_closed.connect(self.on_dialog_closed)
             self.circle_form.exec_()
+
+    @pyqtSlot(bool)
+    def on_dialog_closed(self, result):
+        if result:
+            self.circle_list_widget.load_list()
+            print("O diálogo foi fechado com OK.")
+        else:
+            print("O diálogo foi fechado com Cancelar.")
 
     def label_title(self, text: str) -> QLabel:
         label = QLabel(text=text)

@@ -16,19 +16,14 @@ class SuinoListWidget(QWidget):
         self.list_widget = QListWidget(self)
         self.list_widget.setStyleSheet(Style().LIST)
         self.list_widget.setFixedSize(screen_geometry.width()-180, screen_geometry.height()-40)
-
         self.details_widget = None
-
-        suino_list = self.suino_service.get_suinos()
-        for suino in suino_list:
-            self.addItem(suino)
-
         self.list_widget.show()
 
     def addItem(self, suino: Suino):
         item = QListWidgetItem()
         item_widget = QWidget()
         line_text = QLabel(f"TAG: {suino.id_tag}")
+        line_text.setStyleSheet(Style().FONTE_ITEN_LIST)
         line_push_button = QPushButton("Detalhes")
         line_push_button.clicked.connect(lambda:self.show_details(suino.id_uuid))
         line_push_button.setFixedSize(100, 30)
@@ -39,6 +34,12 @@ class SuinoListWidget(QWidget):
         item.setSizeHint(item_widget.sizeHint())
         self.list_widget.addItem(item)
         self.list_widget.setItemWidget(item, item_widget)
+
+    def load_list(self):
+        self.list_widget.clear()
+        suino_list = self.suino_service.get_suinos()
+        for suino in suino_list:
+            self.addItem(suino)
 
     def show_dialog(self):
         dialog = DialogWidget("Deseja excluir esse registro?")

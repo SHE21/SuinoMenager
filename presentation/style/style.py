@@ -48,3 +48,15 @@ class Style():
                 min-width: 150px;   /* Largura mínima do botão */
             }
         """
+        self.FONTE_ITEN_LIST = """QLabel {
+            font-size: 16px;
+            font-weight:bold;
+            border-radius: 5px;
+            padding: 5px;
+        }"""
+        self.FONTE_ITEN_LIST_1 = """QLabel {
+            font-size: 14px;
+            font-weight:bold;
+            border-radius: 5px;
+            padding: 5px;
+        }"""
