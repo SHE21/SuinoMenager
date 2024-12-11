@@ -49,6 +49,7 @@ class HealthService:
             return result
 
         except Exception as e:
+            print(e)
             return None
 
     def get_health_status_by_circle(self, id_uuid_circle: str) -> list[Health]:

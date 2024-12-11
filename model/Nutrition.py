@@ -5,6 +5,7 @@ from model import DailyStatus
 class Nutrition(DailyStatus):
     def __init__(
         self,
+        id: int,
         id_uuid: str,
         id_uuid_suino: str,
         id_uuid_circle: str,
@@ -18,6 +19,7 @@ class Nutrition(DailyStatus):
         supplementation: str,
     ):
         super().__init__(
+            id=id,
             id_uuid=id_uuid,
             id_uuid_suino=id_uuid_suino,
             id_uuid_circle=id_uuid_circle,
