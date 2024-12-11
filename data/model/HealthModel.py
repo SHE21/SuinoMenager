@@ -1,6 +1,7 @@
 from data.model.DailyStatusModel import DailyStatusModel
 from peewee import CharField, DateField, FloatField, BooleanField, MySQLDatabase
 
+
 def get_health_model(db_connection: MySQLDatabase):
     class HealthModel(DailyStatusModel):
         id_uui_health = CharField(max_length=50)
@@ -15,8 +16,8 @@ def get_health_model(db_connection: MySQLDatabase):
         obervation = CharField(max_length=200)
 
         class Meta:
-                database = db_connection # Define o banco de dados para o modelo
-                table_name = 'health'  # Nome da tabela no banco de dados
+            database = db_connection  # Define o banco de dados para o modelo
+            table_name = "health"  # Nome da tabela no banco de dados
 
     db_connection.create_tables([HealthModel], safe=True)
     return HealthModel

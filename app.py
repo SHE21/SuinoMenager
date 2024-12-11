@@ -1,9 +1,10 @@
 import sys
-from PyQt5.QtWidgets import (
-    QApplication
-)
+from PyQt5.QtWidgets import QApplication
 
+from data.connection.Connection import Connection
+from data.service.HealthService import HealthService
 from presentation.main_panel import MainPanel
+
 
 def main():
     app = QApplication(sys.argv)
@@ -11,9 +12,19 @@ def main():
     main_panel.show()
     sys.exit(app.exec_())
 
+
 if __name__ == "__main__":
-    main()
-    
+    # main()
+    connection = Connection()
+    health_service = HealthService(connection)
+    health_list = health_service.get_health_status_by_circle(
+        "bf531cf4-1d10-425c-a394-29b133765851"
+    )
+    print(health_list)
+
+    for health in health_list:
+        print(health.id_uuid)
+
     """
     conn = Connection()
     service = NutritionService(conn)
