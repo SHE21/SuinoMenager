@@ -1,5 +1,4 @@
 from datetime import date
-import uuid
 from data.connection.Connection import Connection
 from data.model import SuinoModel
 from model.Suino import Suino
