@@ -77,10 +77,6 @@ class DetailsWidget(QDialog):
         layout.addLayout(grid)
         layout.addWidget(btn_add_circle)
 
-        group_box = QGroupBox("Clique para Expandir/Recolher")
-        group_box.setCheckable(True)
-        group_box.setChecked(True)  # Inicialmente expandido
-
         self.circle_list_widget = CircleListWdiget(id_uuid=suino.id_uuid)
         self.circle_list_widget.load_list()
         if len(self.circle_list_widget.get_circle_list()) == 5:
