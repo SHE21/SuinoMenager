@@ -48,3 +48,6 @@ class HealthService():
         
         except Exception as e:
             return None
+
+    def get_health_status_by_circle(self, id_uuid_circle: str):
+        health_model_result = self.health_model.get(self.health_model.id_uuid_circle == id_uuid_circle)

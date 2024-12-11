@@ -1,6 +1,7 @@
 from datetime import date
 from data.connection.Connection import Connection
 from data.model import CircleModel
+from data.model import HealthModel
 from model.Circle import Circle
 
 
@@ -9,6 +10,7 @@ class CircleService():
         self.connection = connection
         self.connection.connect()
         self.circle_model = CircleModel.get_circle_model(connection.get_db())
+        self.health_model = HealthModel.get_health_model(connection.get_db())
 
     def create_circle(self,
             id_uuid: str,
@@ -42,7 +44,7 @@ class CircleService():
             id_uuid=circle_result.uuid,
             circle_name=circle_result.circle_name,
             start_date=circle_result.date_start,
-            end_date="0000-00-00",
+            end_date=circle_result.end_date,
             observation=circle_result.observation,
             daily_status=[],
             is_ended=circle_result.is_ended,
