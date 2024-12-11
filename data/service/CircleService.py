@@ -5,22 +5,24 @@ from data.model import HealthModel
 from model.Circle import Circle
 
 
-class CircleService():
+class CircleService:
     def __init__(self, connection: Connection):
         self.connection = connection
         self.connection.connect()
         self.circle_model = CircleModel.get_circle_model(connection.get_db())
         self.health_model = HealthModel.get_health_model(connection.get_db())
 
-    def create_circle(self,
-            id_uuid: str,
-            id_uuid_suino: str,
-            circle_name: str,
-            start_date: date,
-            end_date: date,
-            observation: str,
-            is_ended: bool,
-            registration_date: date):
+    def create_circle(
+        self,
+        id_uuid: str,
+        id_uuid_suino: str,
+        circle_name: str,
+        start_date: date,
+        end_date: date,
+        observation: str,
+        is_ended: bool,
+        registration_date: date,
+    ):
         try:
             result = self.circle_model.create(
                 id_uuid=id_uuid,
@@ -30,13 +32,13 @@ class CircleService():
                 end_date=end_date,
                 observation=observation,
                 is_ended=is_ended,
-                registration_date=registration_date
+                registration_date=registration_date,
             )
             return result
 
         except Exception as e:
             return None
-        
+
     def get_circle_by_uuid(self, uuid: str) -> Circle:
         circle_result = self.circle_model.get(self.circle_model.id_uuid == uuid)
         return Circle(
@@ -48,11 +50,13 @@ class CircleService():
             observation=circle_result.observation,
             daily_status=[],
             is_ended=circle_result.is_ended,
-            registration_date=circle_result.registration_date
+            registration_date=circle_result.registration_date,
         )
-    
+
     def get_circles_by_uuid_suino(self, id_uuid_suino: str) -> list[Circle]:
-        circle_result = self.circle_model.select().where(self.circle_model.id_uuid_suino == id_uuid_suino)
+        circle_result = self.circle_model.select().where(
+            self.circle_model.id_uuid_suino == id_uuid_suino
+        )
         circle_list = []
 
         for circle in circle_result:
@@ -67,7 +71,7 @@ class CircleService():
                     observation=circle.observation,
                     daily_status=[],
                     is_ended=circle.is_ended,
-                    registration_date=circle.registration_date
+                    registration_date=circle.registration_date,
                 )
             )
         return circle_list

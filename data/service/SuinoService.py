@@ -10,7 +10,16 @@ class SuinoService:
         self.connection.connect()
         self.suino_model = SuinoModel.get_suino_model(connection.get_db())
 
-    def create_suino(self, id_tag: str, id_uuid: str, race: str, date_birth: date, gender: str, origin: str, registration_date: date):
+    def create_suino(
+        self,
+        id_tag: str,
+        id_uuid: str,
+        race: str,
+        date_birth: date,
+        gender: str,
+        origin: str,
+        registration_date: date,
+    ):
         try:
             result = self.suino_model.create(
                 id_tag=id_tag,
@@ -19,11 +28,10 @@ class SuinoService:
                 date_birth=date_birth,
                 gender=gender,
                 origin=origin,
-                registration_date=registration_date
+                registration_date=registration_date,
             )
             return result
 
-        
         except Exception as e:
             return None
 
@@ -37,9 +45,9 @@ class SuinoService:
             date_birth=suino_result.date_birth,
             gender=suino_result.gender,
             origin=suino_result.origin,
-            registration_date=suino_result.registration_date
+            registration_date=suino_result.registration_date,
         )
-    
+
     def get_suinos(self) -> list[Suino]:
         suino_list_db = self.suino_model.select()
         suino_list_result = []
@@ -54,11 +62,11 @@ class SuinoService:
                     suino.date_birth,
                     suino.gender,
                     suino.origin,
-                    suino.registration_date
+                    suino.registration_date,
                 )
             )
         return suino_list_result
-    
+
     @staticmethod
     def update_suino(suino_id, name):
         query = SuinoModel.update(name=name).where(SuinoModel.id == suino_id)

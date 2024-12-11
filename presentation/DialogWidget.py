@@ -1,5 +1,14 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QDialog, QLineEdit, QDialogButtonBox
+from PyQt5.QtWidgets import (
+    QApplication,
+    QWidget,
+    QVBoxLayout,
+    QPushButton,
+    QDialog,
+    QLineEdit,
+    QDialogButtonBox,
+)
+
 
 class DialogWidget(QDialog):
     def __init__(self, title: str):
@@ -16,7 +25,9 @@ class DialogWidget(QDialog):
         layout.addWidget(self.input_text)
 
         # Botões OK e Cancelar
-        self.button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.button_box = QDialogButtonBox(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        )
         layout.addWidget(self.button_box)
 
         # Conectar os botões aos métodos
@@ -28,4 +39,3 @@ class DialogWidget(QDialog):
 
     def get_input_text(self):
         return self.input_text.text()
-

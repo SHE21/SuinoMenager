@@ -14,7 +14,9 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
+    main()
+
+    """
     connection = Connection()
     health_service = HealthService(connection)
     health_list = health_service.get_health_status_by_circle(
@@ -23,9 +25,8 @@ if __name__ == "__main__":
     print(health_list)
 
     for health in health_list:
-        print(health.id_uuid)
+        print(health.obervation)
 
-    """
     conn = Connection()
     service = NutritionService(conn)
     result = service.create_status_nutrition(

@@ -1,6 +1,13 @@
 from datetime import datetime
 import uuid
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGridLayout, QPushButton, QDialog
+from PyQt5.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QGridLayout,
+    QPushButton,
+    QDialog,
+)
 from PyQt5.QtWidgets import QVBoxLayout, QGroupBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSlot
@@ -15,28 +22,29 @@ from presentation.listeners.IDialogCallback import IDialogCallback
 from presentation.listeners.OnClickListener import OnClickListener
 from utils.calculus import calculate_days
 
-STYLE_GRID ="""QGridLayout {
+STYLE_GRID = """QGridLayout {
             background-color:red;
         }"""
 
-STYLE_BUTTON ="""QPushButton {
+STYLE_BUTTON = """QPushButton {
             font-size: 18px;
         }"""
 
-STYLE_LABEL_TITLE ="""QLabel {
+STYLE_LABEL_TITLE = """QLabel {
             height: 10px;
             font-size: 18px;
             background-color:#dedede;
             padding:3px;
         }"""
 
-STYLE_LABEL_VALUE ="""QLabel {
+STYLE_LABEL_VALUE = """QLabel {
             height: 10px;
             font-size: 18px;
             background-color:#dedede;
             font-weight: bold;
             padding:3px;
         }"""
+
 
 class DetailsWidget(QDialog):
     def __init__(self, uuid: int):
@@ -50,7 +58,7 @@ class DetailsWidget(QDialog):
         layout = QVBoxLayout()
 
         btn_add_circle = QPushButton("Adicionar ciclo")
-        btn_add_circle.clicked.connect(lambda:self.open_circle_form(suino.id_uuid))
+        btn_add_circle.clicked.connect(lambda: self.open_circle_form(suino.id_uuid))
         btn_add_circle.setStyleSheet(STYLE_BUTTON)
         btn_add_circle.setFixedSize(140, 50)
 
@@ -114,7 +122,7 @@ class DetailsWidget(QDialog):
         label.setStyleSheet(STYLE_LABEL_TITLE)
         label.setFixedSize(180, 30)
         return label
-    
+
     def label_value(self, text: str) -> QLabel:
         label = QLabel(text=text)
         label.setStyleSheet(STYLE_LABEL_VALUE)

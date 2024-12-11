@@ -1,7 +1,16 @@
 from datetime import date, datetime
 import sys
 import uuid
-from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QVBoxLayout, QDateEdit, QComboBox, QDialog, QDialogButtonBox)
+from PyQt5.QtWidgets import (
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QVBoxLayout,
+    QDateEdit,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+)
 from PyQt5.QtCore import QDate
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
@@ -11,6 +20,7 @@ from data.service.SuinoService import SuinoService
 from presentation.dialogs.Messagens import show_error_message
 from presentation.style.style import Style
 from utils.data import Strings
+
 
 class SuinoForm(QDialog):
     dialog_closed = pyqtSignal(bool)
@@ -28,7 +38,7 @@ class SuinoForm(QDialog):
         button_box.setStyleSheet(Style().BUTTON_DIALOG)
         save_button = QPushButton("Salvar")
         cancel_button = QPushButton("Cancelar")
- 
+
         save_button.clicked.connect(self.accept)
         cancel_button.clicked.connect(self.reject)
 
@@ -58,7 +68,7 @@ class SuinoForm(QDialog):
         self.race_input = QComboBox()
         self.race_input.addItems(Strings.suino_races)
         self.race_input.setStyleSheet(Style().FONTE_COMBO_BOX)
-        
+
         self.gender_label = QLabel("Gênero:")
         self.gender_label.setStyleSheet(Style().FONTE_LABEL)
         self.gender_label.setFixedHeight(30)
@@ -96,12 +106,12 @@ class SuinoForm(QDialog):
 
     @pyqtSlot()
     def accept(self):
-        id_tag=self.id_tag_input.text()
-        race=self.race_input.currentText()
-        date_birth=self.date_birth_input.date().toString("yyyy-MM-dd")
-        gender=self.gender_input.currentText()
-        origin=self.origin_input.text()
-        registration_date=datetime.now().strftime("%Y-%m-%d")
+        id_tag = self.id_tag_input.text()
+        race = self.race_input.currentText()
+        date_birth = self.date_birth_input.date().toString("yyyy-MM-dd")
+        gender = self.gender_input.currentText()
+        origin = self.origin_input.text()
+        registration_date = datetime.now().strftime("%Y-%m-%d")
 
         if not id_tag or not race or not gender or not origin:
             show_error_message("Todos os campos precisam ser preenchidos!")
@@ -114,20 +124,22 @@ class SuinoForm(QDialog):
                 date_birth=date_birth,
                 gender=gender,
                 origin=origin,
-                registration_date=registration_date
+                registration_date=registration_date,
             )
 
-            print(f"id_tag:{id_tag}, "
-            f"race:{race}, "
-            f"date_birth:{date_birth}, "
-            f"gender:{gender}, "
-            f"origin:{origin}")
+            print(
+                f"id_tag:{id_tag}, "
+                f"race:{race}, "
+                f"date_birth:{date_birth}, "
+                f"gender:{gender}, "
+                f"origin:{origin}"
+            )
 
             if result is not None:
                 self.dialog_closed.emit(True)
             else:
                 print("erro ao alvar no banco de dados")
-                
+
             super().accept()
 
         self.connection.close()
@@ -136,5 +148,3 @@ class SuinoForm(QDialog):
     def reject(self):
         self.dialog_closed.emit(False)
         super().reject()
-
-

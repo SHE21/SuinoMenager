@@ -1,9 +1,17 @@
-from PyQt5.QtWidgets import  QListWidget, QListWidgetItem, QWidget, QLabel, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import (
+    QListWidget,
+    QListWidgetItem,
+    QWidget,
+    QLabel,
+    QPushButton,
+    QHBoxLayout,
+)
 
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
 from model.Circle import Circle
 from presentation.style.style import Style
+
 
 class CircleListWdiget(QWidget):
     def __init__(self, id_uuid: str):
@@ -24,7 +32,7 @@ class CircleListWdiget(QWidget):
         line_text = QLabel(f"{circle.circle_name}")
         line_text.setStyleSheet(Style().FONTE_ITEN_LIST_1)
         line_push_button = QPushButton("Detalhes")
-        #line_push_button.clicked.connect(lambda:self.show_details(suino.id_uuid))
+        # line_push_button.clicked.connect(lambda:self.show_details(suino.id_uuid))
         line_push_button.setFixedSize(100, 30)
         item_layout = QHBoxLayout()
         item_layout.addWidget(line_text)
@@ -36,11 +44,12 @@ class CircleListWdiget(QWidget):
 
     def load_list(self):
         self.circle_list.clear()
-        self.circle_list_result = self.cricle_service.get_circles_by_uuid_suino(self.id_uuid)
+        self.circle_list_result = self.cricle_service.get_circles_by_uuid_suino(
+            self.id_uuid
+        )
         for circle in self.circle_list_result:
             print(circle.circle_name)
             self.addItem(circle)
-
 
     def get_circle_list(self):
         return self.circle_list_result

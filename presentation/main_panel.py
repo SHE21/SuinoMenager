@@ -1,5 +1,16 @@
 from abc import ABC, abstractmethod
-from PyQt5.QtWidgets import (QWidget, QApplication, QSizePolicy, QDesktopWidget, QPushButton, QVBoxLayout, QMainWindow, QToolBar, QAction, QDockWidget)
+from PyQt5.QtWidgets import (
+    QWidget,
+    QApplication,
+    QSizePolicy,
+    QDesktopWidget,
+    QPushButton,
+    QVBoxLayout,
+    QMainWindow,
+    QToolBar,
+    QAction,
+    QDockWidget,
+)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -14,12 +25,13 @@ STYLE_DOCK = """QWidget {
             background-color:;
         }"""
 
+
 class MainPanel(QMainWindow):
     def __init__(self):
         super().__init__()
         screen_geometry = QApplication.primaryScreen().availableGeometry()
         self.setWindowTitle("Cadastro de Suínos")
-        self.resize(screen_geometry.width(), screen_geometry.height()-40)
+        self.resize(screen_geometry.width(), screen_geometry.height() - 40)
 
         self.add_suino = None
 
@@ -44,7 +56,9 @@ class MainPanel(QMainWindow):
         # Criando a barra de ferramentas
         toolbar = QToolBar("Minha Barra de Ferramentas")
         toolbar.setMovable(True)  # Permite mover a barra de ferramentas
-        self.addToolBar(Qt.TopToolBarArea, toolbar)  # Adiciona a barra de ferramentas no topo
+        self.addToolBar(
+            Qt.TopToolBarArea, toolbar
+        )  # Adiciona a barra de ferramentas no topo
 
         # Ação para mostrar uma mensagem
         show_msg_action = QAction(QIcon(), "Mostrar Mensagem", self)
@@ -63,7 +77,9 @@ class MainPanel(QMainWindow):
     def dock_widget(self):
         dock_left = QDockWidget()
         dock_left.setFeatures(QDockWidget.NoDockWidgetFeatures)
-        dock_left.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)  # Áreas permitidas para o dock
+        dock_left.setAllowedAreas(
+            Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea
+        )  # Áreas permitidas para o dock
         dock_left.setStyleSheet(STYLE_DOCK)
 
         save_button = QPushButton("Adicionar Suino")
@@ -75,7 +91,7 @@ class MainPanel(QMainWindow):
         layout = QVBoxLayout()
         layout.addWidget(save_button, alignment=Qt.AlignTop)
         dock_content.setLayout(layout)
-            
+
         dock_left.setWidget(dock_content)
         self.addDockWidget(Qt.LeftDockWidgetArea, dock_left)
 
