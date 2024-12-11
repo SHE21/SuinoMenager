@@ -19,3 +19,6 @@ def get_health_model(db_connection: MySQLDatabase):
             class Meta:
                     database = db_connection # Define o banco de dados para o modelo
                     table_name = 'health'  # Nome da tabela no banco de dados
+
+    db_connection.create_tables([HealthModel], safe=True)
+    return HealthModel
