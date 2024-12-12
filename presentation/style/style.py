@@ -88,6 +88,15 @@ class Style:
                     background-color:#dedede;
                     padding:3px;
                 }"""
+        self.STYLE_TOOLBAR_TITLE_1 = """QLabel {
+                    font-size: 18px;
+                    font-weight: bold;
+                }"""
+
+        self.STYLE_TOOLBAR_BUTTON = """QPushButton {
+                    font-size: 14px;
+                    font-weight: bold;
+                }"""
 
         self.STYLE_LABEL_VALUE = """QLabel {
                     height: 10px;

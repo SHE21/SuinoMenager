@@ -23,7 +23,7 @@ class DailyStatusListWidget(QWidget):
         self.daily_status_service = DailyStatusService(self.connection)
         self.daily_status_list = QListWidget(self)
         self.daily_status_list.setStyleSheet(Style().LIST)
-        self.daily_status_list.setFixedSize(808, 290)
+        self.daily_status_list.setFixedSize(808, 565)
         self.daily_status_list.show()
         self.load_list()
 
