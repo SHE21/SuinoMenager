@@ -43,7 +43,7 @@ class NutritionService:
         except Exception as e:
             return None
 
-    def get_nutriotion_status_by_circle(self, id_uuid_circle: str) -> list[Nutrition]:
+    def get_nutrition_status_by_circle(self, id_uuid_circle: str) -> list[Nutrition]:
         nutrition_model_result = self.nutrition_model.select().where(
             self.nutrition_model.id_uuid_circle == id_uuid_circle
         )

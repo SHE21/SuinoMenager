@@ -1,5 +1,5 @@
 from datetime import date
-from model import DailyStatus
+from model.DailyStatus import DailyStatus
 
 
 class Nutrition(DailyStatus):
