@@ -16,6 +16,7 @@ from PyQt5.QtCore import pyqtSlot
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
 from data.service.SuinoService import SuinoService
+from presentation import UtilsWidget
 from presentation.CircleForm import CircleForm
 from presentation.CircleListWidget import CircleListWdiget
 from presentation.listeners.IDialogCallback import IDialogCallback
@@ -43,27 +44,27 @@ class DetailsWidget(QDialog):
         grid = QGridLayout()
 
         # Adicionando widgets ao layout
-        grid.addWidget(self.label_title("ID TAG:"), 0, 0)
-        grid.addWidget(self.label_value(suino.id_tag), 0, 1)
+        grid.addWidget(UtilsWidget.label_title("ID TAG:"), 0, 0)
+        grid.addWidget(UtilsWidget.label_value(suino.id_tag), 0, 1)
 
-        grid.addWidget(self.label_title("Data de Nascimento:"), 1, 0)
+        grid.addWidget(UtilsWidget.label_title("Data de Nascimento:"), 1, 0)
         date_now = datetime.now()
         data_birth_string = f"{str(suino.date_birth)} ({calculate_days(str(suino.date_birth), date_now.strftime("%Y-%m-%d"))} dias)"
-        grid.addWidget(self.label_value(data_birth_string), 1, 1)
+        grid.addWidget(UtilsWidget.label_value(data_birth_string), 1, 1)
 
-        grid.addWidget(self.label_title("Genero:"), 2, 0)
-        grid.addWidget(self.label_value(suino.gender), 2, 1)
+        grid.addWidget(UtilsWidget.label_title("Genero:"), 2, 0)
+        grid.addWidget(UtilsWidget.label_value(suino.gender), 2, 1)
 
-        grid.addWidget(self.label_title("Raça:"), 3, 0)
-        grid.addWidget(self.label_value(suino.race), 3, 1)
+        grid.addWidget(UtilsWidget.label_title("Raça:"), 3, 0)
+        grid.addWidget(UtilsWidget.label_value(suino.race), 3, 1)
 
-        grid.addWidget(self.label_title("Origem/Lote:"), 4, 0)
-        grid.addWidget(self.label_value(suino.origini), 4, 1)
+        grid.addWidget(UtilsWidget.label_title("Origem/Lote:"), 4, 0)
+        grid.addWidget(UtilsWidget.label_value(suino.origini), 4, 1)
 
         layout.addLayout(grid)
         layout.addWidget(btn_add_circle)
 
-        self.circle_list_widget = CircleListWdiget(id_uuid=suino.id_uuid)
+        self.circle_list_widget = CircleListWdiget(suino=suino)
         self.circle_list_widget.load_list()
         if len(self.circle_list_widget.get_circle_list()) == 5:
             btn_add_circle.setEnabled(False)
@@ -94,15 +95,3 @@ class DetailsWidget(QDialog):
             print("O diálogo foi fechado com OK.")
         else:
             print("O diálogo foi fechado com Cancelar.")
-
-    def label_title(self, text: str) -> QLabel:
-        label = QLabel(text=text)
-        label.setStyleSheet(Style().STYLE_LABEL_TITLE)
-        label.setFixedSize(180, 30)
-        return label
-
-    def label_value(self, text: str) -> QLabel:
-        label = QLabel(text=text)
-        label.setStyleSheet(Style().STYLE_LABEL_VALUE)
-        label.setFixedHeight(30)
-        return label
