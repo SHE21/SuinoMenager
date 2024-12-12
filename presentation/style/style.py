@@ -57,8 +57,21 @@ class Style:
         self.FONTE_ITEN_LIST_1 = """QLabel {
             font-size: 14px;
             font-weight:bold;
-            border-radius: 5px;
-            padding: 5px;
+            padding: 8px;
+        }"""
+        self.STYLE_LABEL_HEALTH = """QLabel {
+            font-size: 14px;
+            font-weight:bold;
+            background-color:#DEDEDE;
+            padding: 8px;
+            border-left: 6px solid #1E90FF;
+        }"""
+        self.STYLE_LABEL_NUTRITION = """QLabel {
+            font-size: 14px;
+            font-weight:bold;
+            background-color:#DEDEDE;
+            padding: 8px;
+            border-left: 6px solid #3CB371;
         }"""
 
         self.STYLE_GRID = """QGridLayout {

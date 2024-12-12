@@ -24,7 +24,7 @@ class DetailsDailyStatusDialog(QDialog):
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         self.setWindowTitle(f"Ciclo - {circle.circle_name}")
         self.setLayout(self.init_layout())
-        self.setFixedSize(820, 558)
+        self.setFixedSize(834, 558)
 
     def init_layout(self) -> QVBoxLayout:
         layout = QVBoxLayout()
