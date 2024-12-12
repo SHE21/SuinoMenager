@@ -2,8 +2,9 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 from data.connection.Connection import Connection
-from data.service.HealthService import HealthService
-from data.service.NutritionService import NutritionService
+from data.service.DailyStatusService import DailyStatusService
+from model.Health import Health
+from model.Nutrition import Nutrition
 from presentation.main_panel import MainPanel
 
 
@@ -18,7 +19,19 @@ if __name__ == "__main__":
     # main()
 
     connection = Connection()
-    nutrition_service = NutritionService(connection)
+
+    daily_status = DailyStatusService(connection)
+    daily_status_list = daily_status.get_daily_status(
+        "bf531cf4-1d10-425c-a394-29b133765851"
+    )
+
+    for daily_status in daily_status_list:
+        if isinstance(daily_status, Health):
+            print(daily_status.medicine_name)
+        elif isinstance(daily_status, Nutrition):
+            print(daily_status.supplementation)
+
+    """""
     nutrition_list = nutrition_service.get_nutrition_status_by_circle(
         "bf531cf4-1d10-425c-a394-29b133765851"
     )
@@ -26,7 +39,6 @@ if __name__ == "__main__":
     for nutrition in nutrition_list:
         print(nutrition.daily_feed_intake)
 
-    """
     conn = Connection()
     service = NutritionService(conn)
     result = service.create_status_nutrition(
