@@ -1,7 +1,7 @@
 import enum
 
 
-class Style():
+class Style:
     def __init__(self):
         self.FONTE_EDIT_18PX = """QLineEdit {
             font-size: 18px;
@@ -60,3 +60,26 @@ class Style():
             border-radius: 5px;
             padding: 5px;
         }"""
+
+        self.STYLE_GRID = """QGridLayout {
+                    background-color:red;
+                }"""
+
+        self.STYLE_BUTTON = """QPushButton {
+                    font-size: 18px;
+                }"""
+
+        self.STYLE_LABEL_TITLE = """QLabel {
+                    height: 10px;
+                    font-size: 18px;
+                    background-color:#dedede;
+                    padding:3px;
+                }"""
+
+        self.STYLE_LABEL_VALUE = """QLabel {
+                    height: 10px;
+                    font-size: 18px;
+                    background-color:#dedede;
+                    font-weight: bold;
+                    padding:3px;
+                }"""

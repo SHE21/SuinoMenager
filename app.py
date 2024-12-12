@@ -16,8 +16,9 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
+    main()
 
+    """""
     connection = Connection()
 
     daily_status = DailyStatusService(connection)
@@ -31,7 +32,6 @@ if __name__ == "__main__":
         elif isinstance(daily_status, Nutrition):
             print(daily_status.supplementation)
 
-    """""
     nutrition_list = nutrition_service.get_nutrition_status_by_circle(
         "bf531cf4-1d10-425c-a394-29b133765851"
     )

@@ -10,6 +10,8 @@ from PyQt5.QtWidgets import (
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
 from model.Circle import Circle
+from presentation.DailyStatusListWidget import DailyStatusListWidget
+from presentation.DetailsDailyStatusDialog import DetailsDailyStatusDialog
 from presentation.style.style import Style
 
 
@@ -32,7 +34,7 @@ class CircleListWdiget(QWidget):
         line_text = QLabel(f"{circle.circle_name}")
         line_text.setStyleSheet(Style().FONTE_ITEN_LIST_1)
         line_push_button = QPushButton("Detalhes")
-        # line_push_button.clicked.connect(lambda:self.show_details(suino.id_uuid))
+        line_push_button.clicked.connect(lambda: self.show_details_daily_status(circle))
         line_push_button.setFixedSize(100, 30)
         item_layout = QHBoxLayout()
         item_layout.addWidget(line_text)
@@ -50,6 +52,12 @@ class CircleListWdiget(QWidget):
         for circle in self.circle_list_result:
             print(circle.circle_name)
             self.addItem(circle)
+
+    def show_details_daily_status(self, circle: Circle):
+        daily_status_dialog = DetailsDailyStatusDialog(circle)
+        # daily_status_list_widget = DailyStatusListWidget(id_uuid_circle)
+        daily_status_dialog.exec_()
+        print(f"OPEN DAILY SATATUS LIST {circle.circle_name}")
 
     def get_circle_list(self):
         return self.circle_list_result
