@@ -14,6 +14,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QDate
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QIcon
 
 from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
@@ -28,9 +29,10 @@ class SuinoForm(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
+        self.setWindowIcon(QIcon("src/images/icon_window.png"))
         self.connection = Connection()
         self.suino_service = SuinoService(self.connection)
-        self.setWindowTitle("Cadastro de Suínos")
+        self.setWindowTitle("Registrar Suíno")
         self.setFixedWidth(500)
         # Labels e campos de texto
 

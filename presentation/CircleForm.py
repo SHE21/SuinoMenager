@@ -1,10 +1,19 @@
 from datetime import datetime
 import uuid
-from PyQt5.QtWidgets import (QDialogButtonBox, QLineEdit, QPushButton, QVBoxLayout, QDateEdit, QFormLayout, QDialog, QComboBox)
+from PyQt5.QtWidgets import (
+    QDialogButtonBox,
+    QLineEdit,
+    QPushButton,
+    QVBoxLayout,
+    QDateEdit,
+    QFormLayout,
+    QDialog,
+    QComboBox,
+)
 from PyQt5.QtCore import QDate
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QIcon
 
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
@@ -12,11 +21,14 @@ from presentation.listeners.IDialogCallback import IDialogCallback
 from presentation.style.style import Style
 from utils.data import Strings
 
+
 class CircleForm(QDialog):
     dialog_closed = pyqtSignal(bool)
 
     def __init__(self, id_uuid_suino: str):
         super().__init__()
+        self.setWindowTitle("Registrar Ciclo")
+        self.setWindowIcon(QIcon("src/images/icon_window.png"))
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         self.connection = Connection()
         self.circle_service = CircleService(self.connection)
@@ -32,7 +44,7 @@ class CircleForm(QDialog):
         button_box.setStyleSheet(Style().BUTTON_DIALOG)
         save_button = QPushButton("Salvar")
         cancel_button = QPushButton("Cancelar")
- 
+
         save_button.clicked.connect(lambda: self.accept(id_uuid_suino))
         cancel_button.clicked.connect(self.reject)
 
@@ -45,7 +57,6 @@ class CircleForm(QDialog):
         self.date_start_input.setCalendarPopup(True)
         self.date_start_input.setDisplayFormat("yyyy-MM-dd")
         self.date_start_input.setDate(QDate.currentDate())
-
 
         self.observation_input = QLineEdit()
         self.observation_input.setStyleSheet(Style().FONTE_EDIT_18PX)
@@ -75,7 +86,7 @@ class CircleForm(QDialog):
         end_date = "0000-00-00"
         observation = self.observation_input.text()
         is_ended = False
-        registration_date=datetime.now().strftime("%Y-%m-%d")
+        registration_date = datetime.now().strftime("%Y-%m-%d")
 
         result = self.circle_service.create_circle(
             id_uuid=uuid.uuid4(),
@@ -85,11 +96,11 @@ class CircleForm(QDialog):
             end_date=end_date,
             observation=observation,
             is_ended=is_ended,
-            registration_date=registration_date
+            registration_date=registration_date,
         )
 
         if result is not None:
-           self.dialog_closed.emit(True)
+            self.dialog_closed.emit(True)
         else:
             print("Erro ao salva o ciclo")
 
@@ -99,5 +110,3 @@ class CircleForm(QDialog):
     def reject(self):
         self.dialog_closed.emit(False)
         super().reject()
-    
-        
