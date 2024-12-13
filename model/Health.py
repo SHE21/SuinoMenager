@@ -41,3 +41,25 @@ class Health(DailyStatus):
         self.date_start: date = date_start
         self.date_end: date = date_end
         self.obervation: str = obervation
+
+    def to_string(self):
+        return (
+            f"Health("
+            f"id={self.id}, "
+            f"id_uuid='{self.id_uuid}', "
+            f"id_uuid_suino='{self.id_uuid_suino}', "
+            f"id_uuid_circle='{self.id_uuid_circle}', "
+            f"weight={self.weight}, "
+            f"registration_date={self.registration_date}, "
+            f"id_uui_health='{self.id_uui_health}', "
+            f"medicine_name='{self.medicine_name}', "
+            f"medicine_type='{self.medicine_type}', "
+            f"adminitration_type='{self.adminitration_type}', "
+            f"dosage={self.dosage}, "
+            f"is_treatment={self.is_treatment}, "
+            f"diagnosis='{self.diagnosis}', "
+            f"date_start={self.date_start}, "
+            f"date_end={self.date_end}, "
+            f"obervation='{self.obervation}'"
+            f")"
+        )

@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from model.Circle import Circle
 from model.Suino import Suino
@@ -79,6 +80,16 @@ class DetailsDailyStatusDialog(QDialog):
         tool_bar.addWidget(btn_add_status_nutrition)
         layout.addLayout(tool_bar)
 
+    @pyqtSlot()
     def open_daily_status_form(self, type_status_form: str):
         daily_status_form = DailyStatusForm(self.suino, self.circle, type_status_form)
+        daily_status_form.dialog_closed.connect(self.on_dialog_closed)
         daily_status_form.exec_()
+
+    @pyqtSlot(bool)
+    def on_dialog_closed(self, result):
+        if result:
+            self.daily_status_list_widget.load_list()
+            print("O diálogo foi fechado com OK.")
+        else:
+            print("O diálogo foi fechado com Cancelar.")
