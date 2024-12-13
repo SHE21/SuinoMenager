@@ -16,6 +16,7 @@ from PyQt5.QtGui import QIcon
 
 from model.Circle import Circle
 from model.Suino import Suino
+from presentation.HealthStatusForm import HealthStatusForm
 from presentation.style.style import Style
 
 
@@ -32,12 +33,12 @@ class DailyStatusForm(QDialog):
         self.setFixedSize(820, 720)
 
         layout = QVBoxLayout()
-        self.init_dialog_buttons(layout)
         if type_status_form == "health_form":
             layout.addLayout(self.init_form_health())
         elif type_status_form == "nutrition_form":
             layout.addLayout(self.init_form_nutrition())
 
+        self.init_dialog_buttons(layout)
         self.setLayout(layout)
 
     def init_dialog_buttons(self, layout: QVBoxLayout):
@@ -54,7 +55,7 @@ class DailyStatusForm(QDialog):
         layout.addWidget(button_box)
 
     def init_form_health(self) -> QFormLayout:
-        form_layout = QFormLayout()
+        form_layout = HealthStatusForm(self.suino, self.circle)
         return form_layout
 
     def init_form_nutrition(self):
