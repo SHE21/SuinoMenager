@@ -30,10 +30,10 @@ class SuinoForm(QDialog):
         super().__init__()
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         self.setWindowIcon(QIcon("src/images/icon_window.png"))
-        self.connection = Connection()
-        self.suino_service = SuinoService(self.connection)
         self.setWindowTitle("Registrar Suíno")
         self.setFixedWidth(500)
+        self.connection = Connection()
+        self.suino_service = SuinoService(self.connection)
         # Labels e campos de texto
 
         button_box = QDialogButtonBox()

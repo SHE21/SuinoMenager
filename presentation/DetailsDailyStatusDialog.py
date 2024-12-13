@@ -13,6 +13,7 @@ from PyQt5.QtGui import QIcon
 from model.Circle import Circle
 from model.Suino import Suino
 from presentation import UtilsWidget
+from presentation.DailyStatusForm import DailyStatusForm
 from presentation.DailyStatusListWidget import DailyStatusListWidget
 from presentation.style.style import Style
 from utils.calculus import calculate_days
@@ -62,12 +63,22 @@ class DetailsDailyStatusDialog(QDialog):
         title_label.setStyleSheet(Style().STYLE_TOOLBAR_TITLE_1)
         title_label.setFixedHeight(40)
         btn_add_status_health = QPushButton("Registrar Status Médico")
+        btn_add_status_health.clicked.connect(
+            lambda: self.open_daily_status_form("health_form")
+        )
         btn_add_status_health.setStyleSheet(Style().STYLE_TOOLBAR_BUTTON)
         btn_add_status_health.setFixedHeight(40)
         btn_add_status_nutrition = QPushButton("Registrar Status Alimentar")
+        btn_add_status_nutrition.clicked.connect(
+            lambda: self.open_daily_status_form("nutrition_form")
+        )
         btn_add_status_nutrition.setStyleSheet(Style().STYLE_TOOLBAR_BUTTON)
         btn_add_status_nutrition.setFixedHeight(40)
         tool_bar.addWidget(title_label)
         tool_bar.addWidget(btn_add_status_health)
         tool_bar.addWidget(btn_add_status_nutrition)
         layout.addLayout(tool_bar)
+
+    def open_daily_status_form(self, type_status_form: str):
+        daily_status_form = DailyStatusForm(self.suino, self.circle, type_status_form)
+        daily_status_form.exec_()
