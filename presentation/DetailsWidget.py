@@ -3,11 +3,12 @@ import uuid
 from PyQt5.QtWidgets import (
     QWidget,
     QVBoxLayout,
-    QLabel,
     QGridLayout,
     QPushButton,
     QDialog,
 )
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QVBoxLayout, QGroupBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSlot
@@ -30,6 +31,7 @@ class DetailsWidget(QDialog):
         super().__init__()
         self.connection = Connection()
         self.suino_service = SuinoService(self.connection)
+        self.setWindowIcon(QIcon("src/images/icon_window.png"))
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         suino = self.suino_service.get_suino_by_uuid(uuid)
         self.circle_form = None

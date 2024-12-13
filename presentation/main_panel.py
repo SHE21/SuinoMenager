@@ -30,7 +30,8 @@ class MainPanel(QMainWindow):
     def __init__(self):
         super().__init__()
         screen_geometry = QApplication.primaryScreen().availableGeometry()
-        self.setWindowTitle("Cadastro de Suínos")
+        self.setWindowIcon(QIcon("src/images/icon_window.png"))
+        self.setWindowTitle("Suino Gerenciador")
         self.resize(screen_geometry.width(), screen_geometry.height() - 40)
 
         self.add_suino = None

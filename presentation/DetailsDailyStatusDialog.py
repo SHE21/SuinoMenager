@@ -1,6 +1,5 @@
 from datetime import datetime
 from PyQt5.QtWidgets import (
-    QStyle,
     QVBoxLayout,
     QLabel,
     QGridLayout,
@@ -9,6 +8,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
 )
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 from model.Circle import Circle
 from model.Suino import Suino
@@ -23,6 +23,7 @@ class DetailsDailyStatusDialog(QDialog):
         super().__init__()
         self.suino = suino
         self.circle = circle
+        self.setWindowIcon(QIcon("src/images/icon_window.png"))
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         self.setWindowTitle(f"Ciclo - {circle.circle_name}")
         self.setLayout(self.init_layout())
@@ -60,10 +61,10 @@ class DetailsDailyStatusDialog(QDialog):
         title_label.setAlignment(Qt.AlignVCenter)
         title_label.setStyleSheet(Style().STYLE_TOOLBAR_TITLE_1)
         title_label.setFixedHeight(40)
-        btn_add_status_health = QPushButton("Adicionar Status Médico")
+        btn_add_status_health = QPushButton("Registrar Status Médico")
         btn_add_status_health.setStyleSheet(Style().STYLE_TOOLBAR_BUTTON)
         btn_add_status_health.setFixedHeight(40)
-        btn_add_status_nutrition = QPushButton("Adicionar Status Alimentar")
+        btn_add_status_nutrition = QPushButton("Registrar Status Alimentar")
         btn_add_status_nutrition.setStyleSheet(Style().STYLE_TOOLBAR_BUTTON)
         btn_add_status_nutrition.setFixedHeight(40)
         tool_bar.addWidget(title_label)
