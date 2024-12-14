@@ -8,17 +8,21 @@ from PyQt5.QtWidgets import (
     QGraphicsTextItem,
     QPushButton,
 )
-from PyQt5.QtWidgets import QToolTip, QApplication, QPushButton
+from PyQt5.QtWidgets import QToolTip, QApplication, QPushButton, QWidget
 from PyQt5.QtCore import QRectF
 from PyQt5.QtGui import QPen, QColor, QBrush, QFont
-from BaiaRect import BaiaRect
+from presentation.instalation.BaiaRect import BaiaRect
+from sensors.MqttClient import MqttClient
+from sensors.ReceiverData import ReceiverData
+
+# mosquitto_sub -h localhost -p 1883 -t "teste/topico"
 
 
 class GranjaWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gerenciador de Granja - Baia de Porcos")
-        self.setGeometry(100, 100, 600, 400)
+        self.setGeometry(100, 100, 00, 400)
 
         # Criação da cena gráfica
         self.scene = QGraphicsScene()
@@ -44,6 +48,19 @@ class GranjaWindow(QMainWindow):
         # Criação da visualização para mostrar a cena
         self.view = QGraphicsView(self.scene)
         self.setCentralWidget(self.view)
+
+        """""
+        self.broker = "localhost"  # Endereço do broker
+        self.port = 1884  # Porta do broker
+        self.topic = "baia/entenvironment/temperature"  # Tópico para publicar o evento
+        self.client_id = "gerenciador_granja"
+
+        self.mqtt_thread = MqttClient(
+            broker=self.broker, port=self.port, topic=self.topic
+        )
+        self.mqtt_thread.message_received.connect(self.display_message)
+        self.mqtt_thread.start()
+        """
 
     def criar_baias(
         self,
@@ -83,15 +100,11 @@ class GranjaWindow(QMainWindow):
         self.texto.setPos(x + 8, y + 2)
         self.scene.addItem(self.texto)
 
-    def show_tooltip():
-        QToolTip.setFont(QFont("SansSerif", 10))
-        button = QPushButton("Passar o mouse aqui")
-        button.setToolTip("Isso é uma dica de ferramenta!")
-        button.show()
+    def display_message(self, message):
+        # Atualiza o label com a mensagem recebida
+        print(f"RECEBIDAO: {message}")
 
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = GranjaWindow()
-    window.show()
-    sys.exit(app.exec_())
+    def close_application(self):
+        # Encerra a thread MQTT e fecha a aplicação
+        # self.mqtt_thread.stop()
+        self.close()

@@ -3,8 +3,6 @@ from PyQt5.QtGui import QCursor, QPen, QColor, QBrush, QFont
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QToolTip, QApplication, QPushButton
 
-from presentation.SuinoForm import SuinoForm
-
 
 # Subclasse personalizada de QGraphicsRectItem
 class BaiaRect(QGraphicsRectItem):
