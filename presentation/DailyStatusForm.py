@@ -10,12 +10,13 @@ from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QIcon
 
 from data.connection.Connection import Connection
+from data.service.NutritionService import NutritionService
 from data.service.HealthService import HealthService
 from model.Circle import Circle
 from model.Suino import Suino
 from presentation.HealthStatusForm import HealthStatusForm
 from presentation.NutritionStatusForm import NutritionStatusForm
-from presentation.dialogs.Messagens import show_error_message
+from presentation.UtilsWidget import validate_fields
 from presentation.style.style import Style
 
 
@@ -59,11 +60,13 @@ class DailyStatusForm(QDialog):
         return self.form_layout
 
     def init_form_nutrition(self):
-        self.form_layout = NutritionStatusForm(self.suino, self.circle)
+        self.form_layout = NutritionStatusForm(
+            self.suino, self.circle, NutritionService(connection=self.connection)
+        )
         return self.form_layout
 
     def create_health(self):
-        get_valid_fields = self.form_layout.validate_fields()
+        get_valid_fields = validate_fields(self.form_layout)
         if len(get_valid_fields) > 0:
             QMessageBox.warning(
                 self,
@@ -101,9 +104,33 @@ class DailyStatusForm(QDialog):
 
             super().accept()
 
+    def create_nutrition(self):
+        get_valid_fields = validate_fields(self.form_layout)
+        if len(get_valid_fields) > 0:
+            QMessageBox.warning(
+                self,
+                "Campos estão vazios",
+                "Os seguintes campos estão vazios:\n" + "".join(get_valid_fields),
+            )
+        else:
+            nutrition = self.form_layout.get_values_fields()
+            result = self.form_layout.create_nutrition(nutrition)
+            if result:
+                print("dados salvo!!")
+                self.dialog_closed.emit(True)
+            else:
+                print("Error!")
+                self.dialog_closed.emit(True)
+
+            super().accept()
+
     @pyqtSlot()
     def accept(self):
-        self.create_health()
+        if isinstance(self.form_layout, HealthStatusForm):
+            self.create_health()
+
+        elif isinstance(self.form_layout, NutritionStatusForm):
+            self.create_nutrition()
 
     @pyqtSlot()
     def reject(self):

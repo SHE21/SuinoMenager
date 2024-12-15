@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import (
     QFormLayout,
     QHBoxLayout,
     QLineEdit,
-    QMessageBox,
     QComboBox,
     QDateEdit,
 )
@@ -18,7 +17,6 @@ from presentation.UtilsWidget import (
     line_edit_numb_input,
     line_edit_text_input,
 )
-from presentation.dialogs.Messagens import show_error_message
 from presentation.style.style import Style
 from utils.data import Strings
 
@@ -105,22 +103,6 @@ class HealthStatusForm(QFormLayout):
             )
         else:
             self.removeRow(self.treatment_section)
-
-    def validate_fields(self) -> list[str]:
-        errors = []
-        # Itera sobre todos os widgets do QFormLayout
-        for i in range(self.rowCount()):
-            widget = self.itemAt(i, 1).widget()
-            if isinstance(widget, QComboBox) and not widget.currentText().strip():
-                errors.append(f"{self.itemAt(i, 0).widget().currentText()}\n")
-
-            elif isinstance(widget, QLineEdit) and not widget.text().strip():
-                errors.append(f"{self.itemAt(i, 0).widget().text()}\n")
-
-            elif isinstance(widget, QDateEdit) and not widget.date().strip():
-                errors.append(f"{self.itemAt(i, 0).widget().date()}\n")
-
-        return errors
 
     def set_style_fields(self):
         # Iterar sobre as linhas do QFormLayout

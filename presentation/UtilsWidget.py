@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QLabel, QLineEdit, QComboBox, QDateEdit
+from PyQt5.QtWidgets import QLabel, QLineEdit, QComboBox, QDateEdit, QFormLayout
 from PyQt5.QtGui import QDoubleValidator
 
 from presentation.style.style import Style
@@ -49,3 +49,20 @@ def label_value(text: str) -> QLabel:
     label.setStyleSheet(Style().STYLE_LABEL_VALUE)
     label.setFixedHeight(30)
     return label
+
+
+def validate_fields(form_layout: QFormLayout) -> list[str]:
+    errors = []
+    # Itera sobre todos os widgets do QFormLayout
+    for i in range(form_layout.rowCount()):
+        widget = form_layout.itemAt(i, 1).widget()
+        if isinstance(widget, QComboBox) and not widget.currentText().strip():
+            errors.append(f"{form_layout.itemAt(i, 0).widget().currentText()}\n")
+
+        elif isinstance(widget, QLineEdit) and not widget.text().strip():
+            errors.append(f"{form_layout.itemAt(i, 0).widget().text()}\n")
+
+        elif isinstance(widget, QDateEdit) and not widget.date().strip():
+            errors.append(f"{form_layout.itemAt(i, 0).widget().date()}\n")
+
+    return errors
