@@ -39,7 +39,7 @@ class DetailsDailyStatusDialog(QDialog):
         return layout
 
     def init_list(self, layout: QVBoxLayout):
-        self.daily_status_list_widget = DailyStatusListWidget(self.circle.id_uuid)
+        self.daily_status_list_widget = DailyStatusListWidget(self.circle)
         layout.addWidget(self.daily_status_list_widget)
 
     def init_grid(self, layout: QVBoxLayout):

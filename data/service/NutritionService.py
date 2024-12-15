@@ -1,6 +1,7 @@
 from data.ServiceInterface import ServiceInterface
 from data.model import NutritionModel
 from data.connection.Connection import Connection
+from model.Circle import Circle
 from model.DailyStatus import DailyStatus
 from model.Nutrition import Nutrition
 
@@ -30,9 +31,9 @@ class NutritionService(ServiceInterface):
         except Exception as e:
             return None
 
-    def get_nutrition_status_by_circle(self, id_uuid_circle: str) -> list[Nutrition]:
+    def get_daily_status_by_circle(self, circle: Circle) -> list[DailyStatus]:
         nutrition_model_result = self.nutrition_model.select().where(
-            self.nutrition_model.id_uuid_circle == id_uuid_circle
+            self.nutrition_model.id_uuid_circle == circle.id_uuid
         )
         nutrition_list = []
 

@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
 
 from data.connection.Connection import Connection
 from data.service.DailyStatusService import DailyStatusService
+from model.Circle import Circle
 from model.DailyStatus import DailyStatus
 from model.Health import Health
 from model.Nutrition import Nutrition
@@ -16,8 +17,8 @@ from presentation.style.style import Style
 
 
 class DailyStatusListWidget(QWidget):
-    def __init__(self, id_uuid: str):
-        self.id_uuid = id_uuid
+    def __init__(self, circle: Circle):
+        self.circle = circle
         super().__init__()
         self.connection = Connection()
         self.daily_status_service = DailyStatusService(self.connection)
@@ -37,7 +38,7 @@ class DailyStatusListWidget(QWidget):
 
     def load_list(self):
         self.daily_status_list.clear()
-        daily_status_result = self.daily_status_service.get_daily_status(self.id_uuid)
+        daily_status_result = self.daily_status_service.get_daily_status(self.circle)
         for daily_status in daily_status_result:
             self.addStatusItem(daily_status)
 
