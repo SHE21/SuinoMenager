@@ -1,18 +1,24 @@
 from datetime import datetime
 import uuid
 from PyQt5.QtWidgets import (
-    QLineEdit,
-    QDateEdit,
-    QComboBox,
     QFormLayout,
     QHBoxLayout,
+    QLineEdit,
+    QMessageBox,
+    QComboBox,
+    QDateEdit,
 )
-from PyQt5.QtCore import QDate
-from PyQt5.QtGui import QDoubleValidator
 
 from model.Circle import Circle
 from model.Health import Health
 from model.Suino import Suino
+from presentation.UtilsWidget import (
+    combo_box_text_input,
+    date_input,
+    line_edit_numb_input,
+    line_edit_text_input,
+)
+from presentation.dialogs.Messagens import show_error_message
 from presentation.style.style import Style
 from utils.data import Strings
 
@@ -22,40 +28,18 @@ class HealthStatusForm(QFormLayout):
         self.suino = suino
         self.circle = circle
         super().__init__()
-        self.medicine_type = QComboBox()
-        self.medicine_type.setFixedWidth(200)
-        self.medicine_type.setStyleSheet(Style().FONTE_COMBO_BOX)
-        self.medicine_type.addItems(Strings.medicine_type_list)
-
-        self.administration_type = QComboBox()
-        self.administration_type.setFixedWidth(200)
-        self.administration_type.setStyleSheet(Style().FONTE_COMBO_BOX)
-        self.administration_type.addItems(Strings.administration_type_list)
-
-        self.is_treatment = QComboBox()
-        self.is_treatment.setFixedWidth(75)
-        self.is_treatment.setStyleSheet(Style().FONTE_COMBO_BOX)
-        self.is_treatment.addItems(["Não", "Sim"])
+        self.medicine_type = combo_box_text_input(Strings.medicine_type_list)
+        self.administration_type = combo_box_text_input(
+            Strings.administration_type_list
+        )
+        self.is_treatment = combo_box_text_input(["Não", "Sim"])
         self.is_treatment.currentTextChanged.connect(self.show_treatment_section)
 
-        self.weight = QLineEdit()
-        self.weight.setFixedWidth(75)
-        self.weight.setValidator(QDoubleValidator(0.0, 1000.0, 3))
-        self.weight.setStyleSheet(Style().FONTE_EDIT_18PX)
-
-        self.medicine_name = QLineEdit()
-        self.medicine_name.setStyleSheet(Style().FONTE_EDIT_18PX)
-
-        self.dosage = QLineEdit()
-        self.dosage.setFixedWidth(75)
-        self.dosage.setValidator(QDoubleValidator(0.0, 1000.0, 3))
-        self.dosage.setStyleSheet(Style().FONTE_EDIT_18PX)
-
-        self.diagnosis = QLineEdit()
-        self.diagnosis.setStyleSheet(Style().FONTE_EDIT_18PX)
-
-        self.observations = QLineEdit()
-        self.observations.setStyleSheet(Style().FONTE_EDIT_18PX)
+        self.weight = line_edit_numb_input()
+        self.medicine_name = line_edit_text_input()
+        self.dosage = line_edit_numb_input()
+        self.diagnosis = line_edit_text_input()
+        self.observations = line_edit_text_input()
 
         self.addRow("Peso (kg):", self.weight)
         self.addRow("Nome da Medicação:", self.medicine_name)
@@ -66,14 +50,7 @@ class HealthStatusForm(QFormLayout):
         self.addRow("Observações:", self.observations)
         self.addRow("É tratamento:", self.is_treatment)
 
-        self.labelForField(self.medicine_type).setStyleSheet(Style().FONTE_LABEL)
-        self.labelForField(self.administration_type).setStyleSheet(Style().FONTE_LABEL)
-        self.labelForField(self.is_treatment).setStyleSheet(Style().FONTE_LABEL)
-        self.labelForField(self.weight).setStyleSheet(Style().FONTE_LABEL)
-        self.labelForField(self.medicine_name).setStyleSheet(Style().FONTE_LABEL)
-        self.labelForField(self.dosage).setStyleSheet(Style().FONTE_LABEL)
-        self.labelForField(self.diagnosis).setStyleSheet(Style().FONTE_LABEL)
-        self.labelForField(self.observations).setStyleSheet(Style().FONTE_LABEL)
+        self.set_style_fields()
 
     def get_values_fields(self) -> Health:
         medicine_type = self.medicine_type.currentText()
@@ -116,8 +93,8 @@ class HealthStatusForm(QFormLayout):
 
     def show_treatment_section(self):
         if self.is_treatment.currentText() == "Sim":
-            self.date_start_input = self.get_date_edit()
-            self.date_end_input = self.get_date_edit()
+            self.date_start_input = date_input()
+            self.date_end_input = date_input()
 
             self.treatment_section = QHBoxLayout()
             self.treatment_section.addWidget(self.date_start_input)
@@ -129,11 +106,24 @@ class HealthStatusForm(QFormLayout):
         else:
             self.removeRow(self.treatment_section)
 
-    def get_date_edit(self) -> QDateEdit:
-        date_edit_unput = QDateEdit()
-        date_edit_unput.setStyleSheet(Style().FONTE_EDIT_DATE_18PX)
-        date_edit_unput.setBaseSize(100, 30)
-        date_edit_unput.setCalendarPopup(True)
-        date_edit_unput.setDisplayFormat("yyyy-MM-dd")
-        date_edit_unput.setDate(QDate.currentDate())
-        return date_edit_unput
+    def validate_fields(self) -> list[str]:
+        errors = []
+        # Itera sobre todos os widgets do QFormLayout
+        for i in range(self.rowCount()):
+            widget = self.itemAt(i, 1).widget()
+            if isinstance(widget, QComboBox) and not widget.currentText().strip():
+                errors.append(f"{self.itemAt(i, 0).widget().currentText()}\n")
+
+            elif isinstance(widget, QLineEdit) and not widget.text().strip():
+                errors.append(f"{self.itemAt(i, 0).widget().text()}\n")
+
+            elif isinstance(widget, QDateEdit) and not widget.date().strip():
+                errors.append(f"{self.itemAt(i, 0).widget().date()}\n")
+
+        return errors
+
+    def set_style_fields(self):
+        # Iterar sobre as linhas do QFormLayout
+        for i in range(self.rowCount()):
+            label_item = self.itemAt(i, QFormLayout.LabelRole)
+            label_item.widget().setStyleSheet(Style().FONTE_LABEL)

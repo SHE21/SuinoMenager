@@ -1,7 +1,26 @@
-from PyQt5.QtWidgets import QLabel, QLineEdit
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QLabel, QLineEdit, QComboBox, QDateEdit
 from PyQt5.QtGui import QDoubleValidator
 
 from presentation.style.style import Style
+
+
+def date_input() -> QDateEdit:
+    date_edit_unput = QDateEdit()
+    date_edit_unput.setStyleSheet(Style().FONTE_EDIT_DATE_18PX)
+    date_edit_unput.setBaseSize(100, 30)
+    date_edit_unput.setCalendarPopup(True)
+    date_edit_unput.setDisplayFormat("yyyy-MM-dd")
+    date_edit_unput.setDate(QDate.currentDate())
+    return date_edit_unput
+
+
+def combo_box_text_input(values: list[str]) -> QComboBox:
+    combo_box = QComboBox()
+    combo_box.setFixedWidth(200)
+    combo_box.setStyleSheet(Style().FONTE_COMBO_BOX)
+    combo_box.addItems(values)
+    return combo_box
 
 
 def line_edit_text_input() -> QLineEdit:
@@ -12,6 +31,7 @@ def line_edit_text_input() -> QLineEdit:
 
 def line_edit_numb_input() -> QLineEdit:
     line_edit = QLineEdit()
+    line_edit.setStyleSheet(Style().FONTE_EDIT_18PX)
     line_edit.setFixedWidth(75)
     line_edit.setValidator(QDoubleValidator(0.0, 1000.0, 3))
     return line_edit

@@ -3,6 +3,10 @@ import enum
 
 class Style:
     def __init__(self):
+        self.FONT_FORM_LAYOUT = """ *{
+            font-size: 18px;
+        }"""
+
         self.FONTE_EDIT_18PX = """QLineEdit {
             font-size: 18px;
             border: 2px solid gray;

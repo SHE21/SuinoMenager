@@ -1,11 +1,4 @@
-from PyQt5.QtWidgets import (
-    QLineEdit,
-    QDateEdit,
-    QComboBox,
-    QFormLayout,
-    QHBoxLayout,
-)
-from PyQt5.QtGui import QDoubleValidator
+from PyQt5.QtWidgets import QFormLayout
 
 from model.Circle import Circle
 from model.Suino import Suino
@@ -40,5 +33,3 @@ class NutritionStatusForm(QFormLayout):
         for i in range(self.rowCount()):
             label_item = self.itemAt(i, QFormLayout.LabelRole)
             label_item.widget().setStyleSheet(Style().FONTE_LABEL)
-            field_item = self.itemAt(i, QFormLayout.FieldRole)
-            field_item.widget().setStyleSheet(Style().FONTE_EDIT_18PX)
