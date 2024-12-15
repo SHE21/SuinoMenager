@@ -16,12 +16,15 @@ def main():
     sys.exit(app.exec_())
 
 
-if __name__ == "__main__":
-    # main()
+def planta():
     app = QApplication(sys.argv)
     window = GranjaWindow()
     window.show()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
 
     """""
     conn = Connection()

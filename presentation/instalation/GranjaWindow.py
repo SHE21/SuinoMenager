@@ -22,7 +22,7 @@ class GranjaWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gerenciador de Granja - Baia de Porcos")
-        self.setGeometry(100, 100, 00, 400)
+        self.setGeometry(0, 0, 1920, 920)
 
         # Criação da cena gráfica
         self.scene = QGraphicsScene()
@@ -49,7 +49,6 @@ class GranjaWindow(QMainWindow):
         self.view = QGraphicsView(self.scene)
         self.setCentralWidget(self.view)
 
-        """""
         self.broker = "localhost"  # Endereço do broker
         self.port = 1884  # Porta do broker
         self.topic = "baia/entenvironment/temperature"  # Tópico para publicar o evento
@@ -60,7 +59,6 @@ class GranjaWindow(QMainWindow):
         )
         self.mqtt_thread.message_received.connect(self.display_message)
         self.mqtt_thread.start()
-        """
 
     def criar_baias(
         self,
@@ -86,6 +84,8 @@ class GranjaWindow(QMainWindow):
                 self.scene.addItem(self.baias[key])
                 self.add_label(x, y, str(j))
 
+        print(self.baias)
+
     def add_label(self, x, y, text):
         self.scene.addRect(
             x,
@@ -101,6 +101,11 @@ class GranjaWindow(QMainWindow):
         self.scene.addItem(self.texto)
 
     def display_message(self, message):
+        data: dict = eval(message)
+        selected_baia: BaiaRect = self.baias.get(data.get("baia"))
+        selected_baia.setBrush(
+            QBrush(QColor(data.get("R"), data.get("G"), data.get("B")))
+        )
         # Atualiza o label com a mensagem recebida
         print(f"RECEBIDAO: {message}")
 
