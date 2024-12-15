@@ -61,14 +61,14 @@ class DailyStatusListWidget(QWidget):
 
         if isinstance(daily_status, Health):
             title_text = QLabel(
-                f"Saúde-> Diagnóstico: {daily_status.diagnosis} | Adminstração: {daily_status.adminitration_type} | Dose:{daily_status.dosage} | {daily_status.registration_date}"
+                f"Diagnóstico: {daily_status.diagnosis} | Adminstração: {daily_status.adminitration_type} | Dose:{daily_status.dosage} | {daily_status.registration_date}"
             )
             title_text.setStyleSheet(Style().STYLE_LABEL_HEALTH)
             layout.addWidget(title_text)
 
         elif isinstance(daily_status, Nutrition):
             title_text = QLabel(
-                f"Nutrição-> Peso:{daily_status.weight}kg | Consumo de Ração:{daily_status.daily_feed_intake}kg/dia | Ganho de Peso:{daily_status.weight_gain_daily}kg/dia | {daily_status.registration_date}"
+                f"Peso:{daily_status.weight} kg | Consumo de Ração:{daily_status.daily_feed_intake} kg/dia | Ganho de Peso:{daily_status.weight_gain_daily} kg/dia | {daily_status.registration_date}"
             )
             title_text.setStyleSheet(Style().STYLE_LABEL_NUTRITION)
             layout.addWidget(title_text)

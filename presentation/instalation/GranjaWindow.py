@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtWidgets import QToolTip, QApplication, QPushButton, QWidget
 from PyQt5.QtCore import QRectF
-from PyQt5.QtGui import QPen, QColor, QBrush, QFont
+from PyQt5.QtGui import QPen, QColor, QBrush, QFont, QIcon
 from presentation.instalation.BaiaRect import BaiaRect
 from sensors.MqttClient import MqttClient
 from sensors.ReceiverData import ReceiverData
@@ -21,8 +21,10 @@ from sensors.ReceiverData import ReceiverData
 class GranjaWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QIcon("src/images/icon_window.png"))
         self.setWindowTitle("Gerenciador de Granja - Baia de Porcos")
-        self.setGeometry(0, 0, 1920, 920)
+        screen_geometry = QApplication.primaryScreen().availableGeometry()
+        self.setGeometry(screen_geometry)
 
         # Criação da cena gráfica
         self.scene = QGraphicsScene()

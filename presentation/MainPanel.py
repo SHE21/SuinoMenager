@@ -16,6 +16,7 @@ from PyQt5.QtCore import Qt
 
 from presentation.SuinoListWidget import SuinoListWidget
 from presentation.SuinoForm import SuinoForm
+from presentation.instalation.GranjaWindow import GranjaWindow
 from presentation.listeners import IDialogCallback
 from presentation.style.style import Style
 from utils.calculus import get_taskbar_dimensions
@@ -83,14 +84,20 @@ class MainPanel(QMainWindow):
         )  # Áreas permitidas para o dock
         dock_left.setStyleSheet(STYLE_DOCK)
 
-        save_button = QPushButton("Adicionar Suino")
-        save_button.setSizePolicy(QSizePolicy.Expanding, 50)
-        save_button.setStyleSheet(Style().FONTE_BUTTON_18PX)
-        save_button.clicked.connect(self.open_form_add_suino)
+        create_suino_button = QPushButton("Adicionar Suino")
+        create_suino_button.setSizePolicy(QSizePolicy.Expanding, 50)
+        create_suino_button.setStyleSheet(Style().FONTE_BUTTON_18PX)
+        create_suino_button.clicked.connect(self.open_form_add_suino)
+
+        create_instalation_btn = QPushButton("Instalações")
+        create_instalation_btn.setSizePolicy(QSizePolicy.Expanding, 50)
+        create_instalation_btn.setStyleSheet(Style().FONTE_BUTTON_18PX)
+        create_instalation_btn.clicked.connect(self.open_instalation_manager)
 
         dock_content = QWidget()
         layout = QVBoxLayout()
-        layout.addWidget(save_button, alignment=Qt.AlignTop)
+        layout.addWidget(create_suino_button, alignment=Qt.AlignTop)
+        layout.addWidget(create_instalation_btn, alignment=Qt.AlignTop)
         dock_content.setLayout(layout)
 
         dock_left.setWidget(dock_content)
@@ -98,6 +105,11 @@ class MainPanel(QMainWindow):
 
     def show_message():
         print("teste")
+
+    def open_instalation_manager(self):
+        self.granja_window = GranjaWindow()
+        if not self.granja_window or not self.granja_window.isVisible():
+            self.granja_window.show()
 
     @pyqtSlot()
     def open_form_add_suino(self):
