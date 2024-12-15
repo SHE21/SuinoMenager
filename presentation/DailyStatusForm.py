@@ -17,6 +17,7 @@ from data.service.HealthService import HealthService
 from model.Circle import Circle
 from model.Suino import Suino
 from presentation.HealthStatusForm import HealthStatusForm
+from presentation.NutritionStatusForm import NutritionStatusForm
 from presentation.style.style import Style
 
 
@@ -60,7 +61,7 @@ class DailyStatusForm(QDialog):
         return self.form_layout
 
     def init_form_nutrition(self):
-        self.form_layout = QFormLayout()
+        self.form_layout = NutritionStatusForm(self.suino, self.circle)
         return self.form_layout
 
     def create_health(self):
