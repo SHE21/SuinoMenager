@@ -17,15 +17,18 @@ from PyQt5.QtGui import QIcon
 
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
+from model.Circle import Circle
+from model.Circle import get_list_circle_name
 from presentation.listeners.IDialogCallback import IDialogCallback
 from presentation.style.style import Style
+from utils.Utils import filter_circle_list
 from utils.data import Strings
 
 
 class CircleForm(QDialog):
     dialog_closed = pyqtSignal(bool)
 
-    def __init__(self, id_uuid_suino: str):
+    def __init__(self, id_uuid_suino: str, circle_list: list[Circle]):
         super().__init__()
         self.setWindowTitle("Registrar Ciclo")
         self.setWindowIcon(QIcon("src/images/icon_window.png"))
@@ -37,8 +40,17 @@ class CircleForm(QDialog):
         form_layout = QFormLayout()
 
         self.circle_input = QComboBox()
+        self.circle_input.addItem("-- selecione um ciclo --", 0)
         self.circle_input.setStyleSheet(Style().FONTE_COMBO_BOX)
-        self.circle_input.addItems(Strings.circle_list)
+
+        control_list = get_list_circle_name(circle_list)
+        original_list = Strings.circle_list_combo
+
+        option_circle_name_list = filter_circle_list(
+            original_list,
+            control_list,
+        )
+        self.circle_input.addItems(option_circle_name_list)
 
         button_box = QDialogButtonBox()
         button_box.setStyleSheet(Style().BUTTON_DIALOG)

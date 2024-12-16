@@ -23,7 +23,7 @@ from presentation.CircleListWidget import CircleListWdiget
 from presentation.listeners.IDialogCallback import IDialogCallback
 from presentation.listeners.OnClickListener import OnClickListener
 from presentation.style.style import Style
-from utils.calculus import calculate_days
+from utils.Utils import calculate_days
 
 
 class DetailsWidget(QDialog):
@@ -86,7 +86,10 @@ class DetailsWidget(QDialog):
     @pyqtSlot()
     def open_circle_form(self, id_uuid_suino: str):
         if not self.circle_form or not self.circle_form.isVisible():
-            self.circle_form = CircleForm(id_uuid_suino)
+            self.circle_form = CircleForm(
+                id_uuid_suino=id_uuid_suino,
+                circle_list=self.circle_list_widget.get_circle_list(),
+            )
             self.circle_form.dialog_closed.connect(self.on_dialog_closed)
             self.circle_form.exec_()
 
