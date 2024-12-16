@@ -12,10 +12,12 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from model.Circle import Circle
+from model.DailyStatus import DailyStatus
 from model.Suino import Suino
 from presentation import UtilsWidget
 from presentation.DailyStatusForm import DailyStatusForm
 from presentation.DailyStatusListWidget import DailyStatusListWidget
+from presentation.DetailsStatusDialog import DetailsStatusDialog
 from presentation.style.style import Style
 from utils.calculus import calculate_days
 
@@ -39,7 +41,9 @@ class DetailsDailyStatusDialog(QDialog):
         return layout
 
     def init_list(self, layout: QVBoxLayout):
-        self.daily_status_list_widget = DailyStatusListWidget(self.circle)
+        self.daily_status_list_widget = DailyStatusListWidget(
+            self.circle, self.open_details_status_dialog
+        )
         layout.addWidget(self.daily_status_list_widget)
 
     def init_grid(self, layout: QVBoxLayout):
@@ -79,6 +83,10 @@ class DetailsDailyStatusDialog(QDialog):
         tool_bar.addWidget(btn_add_status_health)
         tool_bar.addWidget(btn_add_status_nutrition)
         layout.addLayout(tool_bar)
+
+    def open_details_status_dialog(self, daily_status: DailyStatus):
+        details_status_dialog = DetailsStatusDialog(daily_status)
+        details_status_dialog.exec_()
 
     @pyqtSlot()
     def open_daily_status_form(self, type_status_form: str):

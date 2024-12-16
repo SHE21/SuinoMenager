@@ -17,8 +17,9 @@ from presentation.style.style import Style
 
 
 class DailyStatusListWidget(QWidget):
-    def __init__(self, circle: Circle):
+    def __init__(self, circle: Circle, on_open):
         self.circle = circle
+        self.on_open = on_open
         super().__init__()
         self.connection = Connection()
         self.daily_status_service = DailyStatusService(self.connection)
@@ -44,9 +45,7 @@ class DailyStatusListWidget(QWidget):
 
     def init_item_daily_status(self, daily_status: DailyStatus) -> QHBoxLayout:
         line_push_button = QPushButton("ver mais")
-        # line_push_button.clicked.connect(
-        # lambda: self.show_details_daily_status(circle.id_uuid)
-        # )
+        line_push_button.clicked.connect(lambda: self.on_open(daily_status))
         line_push_button.setFixedSize(100, 30)
 
         item_layout = QHBoxLayout()
