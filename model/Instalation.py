@@ -12,7 +12,7 @@ class Instalation:
         self.name: str = name
         self.area: float = area
         self.infra: str = infra
-        registration_date: date = registration_date
+        self.registration_date: date = registration_date
 
     def to_string(self):
         return (
