@@ -19,7 +19,7 @@ from presentation.SuinoForm import SuinoForm
 from presentation.instalation.GranjaWindow import GranjaWindow
 from presentation.listeners import IDialogCallback
 from presentation.style.style import Style
-from utils.calculus import get_taskbar_dimensions
+from utils.Utils import get_taskbar_dimensions
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 STYLE_DOCK = """QWidget {

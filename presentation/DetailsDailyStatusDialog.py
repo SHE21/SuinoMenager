@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSignal, pyqtSlot
+from PyQt5.QtCore import pyqtSlot
 
 from model.Circle import Circle
 from model.DailyStatus import DailyStatus
@@ -19,7 +19,7 @@ from presentation.DailyStatusForm import DailyStatusForm
 from presentation.DailyStatusListWidget import DailyStatusListWidget
 from presentation.DetailsStatusDialog import DetailsStatusDialog
 from presentation.style.style import Style
-from utils.calculus import calculate_days
+from utils.Utils import calculate_days
 
 
 class DetailsDailyStatusDialog(QDialog):
