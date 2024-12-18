@@ -50,12 +50,11 @@ class MainPanel(QMainWindow):
         layout.setSizeConstraint(QVBoxLayout.SetDefaultConstraint)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        instalation_service = InstalationService(self.connection)
-        instalation_list_result = instalation_service.get_instalation_list()
-        instalation_list_widget = InstalationListWidget(
-            instalation_list_result, self.open_dialog_details
-        )
-        layout.addWidget(instalation_list_widget)
+        self.instalation_service = InstalationService(self.connection)
+        instalation_list_result = self.instalation_service.get_instalation_list()
+        self.instalation_list_widget = InstalationListWidget(self.open_dialog_details)
+        self.instalation_list_widget.setList(instalation_list_result)
+        layout.addWidget(self.instalation_list_widget)
 
         self.create_toolbar()
         self.dock_widget()
@@ -115,7 +114,6 @@ class MainPanel(QMainWindow):
     def open_dialog_details(self, instalation: Instalation):
         print(f"{instalation.name}")
 
-    @pyqtSlot()
     def open_instalation_form(self):
         instalation_dialog = InstalationFormDialog()
         instalation_dialog.dialog_closed.connect(self.on_dialog_closed)
@@ -130,7 +128,8 @@ class MainPanel(QMainWindow):
     @pyqtSlot(bool)
     def on_dialog_closed(self, result):
         if result:
-            self.suino_list_widget.load_list()
+            instalation_list_result = self.instalation_service.get_instalation_list()
+            self.instalation_list_widget.setList(instalation_list_result)
             print("O diálogo foi fechado e os dados foram salvos.")
         else:
             print("O diálogo foi fechado com Cancelar.")

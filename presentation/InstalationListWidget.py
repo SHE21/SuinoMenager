@@ -20,15 +20,18 @@ class OnClickListener(ABC):
 
 
 class InstalationListWidget(QListWidget):
-    def __init__(self, instalation_list: list[Instalation], open_dialog_details):
-        self.instalation_list = instalation_list
+    def __init__(self, open_dialog_details):
+        self.instalation_list: list[Instalation] = []
         self.open_dialog_details = open_dialog_details
         super().__init__()
         screen_geometry = QApplication.primaryScreen().availableGeometry()
         self.setFixedSize(screen_geometry.width() - 180, screen_geometry.height() - 40)
         self.setStyleSheet(Style().LIST)
+
+    def setList(self, instalation_list: list[Instalation]):
+        self.clear()
+        self.instalation_list = instalation_list
         self.init_list()
-        self.show()
 
     def init_list(self):
         for instalation in self.instalation_list:
