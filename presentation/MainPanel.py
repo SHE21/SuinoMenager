@@ -14,6 +14,8 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
+from data.service.InstalationService import InstalationService
+from presentation.InstalationDialogForm import InstalationFormDialog
 from presentation.SuinoListWidget import SuinoListWidget
 from presentation.SuinoForm import SuinoForm
 from presentation.instalation.GranjaWindow import GranjaWindow
@@ -92,7 +94,7 @@ class MainPanel(QMainWindow):
         create_instalation_btn = QPushButton("Instalações")
         create_instalation_btn.setSizePolicy(QSizePolicy.Expanding, 50)
         create_instalation_btn.setStyleSheet(Style().FONTE_BUTTON_18PX)
-        create_instalation_btn.clicked.connect(self.open_instalation_manager)
+        create_instalation_btn.clicked.connect(self.open_instalation_form)
 
         dock_content = QWidget()
         layout = QVBoxLayout()
@@ -106,10 +108,11 @@ class MainPanel(QMainWindow):
     def show_message():
         print("teste")
 
-    def open_instalation_manager(self):
-        self.granja_window = GranjaWindow()
-        if not self.granja_window or not self.granja_window.isVisible():
-            self.granja_window.show()
+    @pyqtSlot()
+    def open_instalation_form(self):
+        instalation_dialog = InstalationFormDialog()
+        instalation_dialog.dialog_closed.connect(self.on_dialog_closed)
+        instalation_dialog.exec_()
 
     @pyqtSlot()
     def open_form_add_suino(self):
@@ -121,6 +124,6 @@ class MainPanel(QMainWindow):
     def on_dialog_closed(self, result):
         if result:
             self.suino_list_widget.load_list()
-            print("O diálogo foi fechado com OK.")
+            print("O diálogo foi fechado e os dados foram salvos.")
         else:
             print("O diálogo foi fechado com Cancelar.")

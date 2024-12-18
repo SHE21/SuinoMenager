@@ -42,5 +42,9 @@ def filter_circle_list(original_list, control_list):
     return [item for item in original_list if item not in control_list]
 
 
+def get_datetime():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
 if __name__ == "__main__":
     calculate_days("2024-12-9", "2024-12-15")

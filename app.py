@@ -17,7 +17,8 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
+    main()
+    """
     connect = Connection()
     service = InstalationService(connect)
     instalation = Instalation(
@@ -37,3 +38,4 @@ if __name__ == "__main__":
         print("Salvo")
     else:
         print("error")
+    """

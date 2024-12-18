@@ -3,9 +3,6 @@ import uuid
 from PyQt5.QtWidgets import (
     QFormLayout,
     QHBoxLayout,
-    QLineEdit,
-    QComboBox,
-    QDateEdit,
 )
 
 from model.Circle import Circle
