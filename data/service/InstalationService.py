@@ -1,10 +1,9 @@
-import InstalationModel
-from data.ServiceInterface import ServiceInterface
+from data.model import InstalationModel
 from data.connection.Connection import Connection
 from model.Instalation import Instalation
 
 
-class InstalationService(ServiceInterface):
+class InstalationService:
     def __init__(self, connection: Connection):
         self.connection = connection
         self.connection.connect()
