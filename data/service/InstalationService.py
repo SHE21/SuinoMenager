@@ -25,3 +25,28 @@ class InstalationService:
 
         except Exception as e:
             return None
+
+    def get_instalation_list(self):
+        try:
+            result = self.instalation_model.select()
+
+            instalation_list = []
+
+            for instalation in result:
+                instalation_list.append(
+                    Instalation(
+                        id=id,
+                        id_uuid=instalation.id_uuid,
+                        geo_location=instalation.geo_location,
+                        address=instalation.address,
+                        name=instalation.name,
+                        area=instalation.area,
+                        infra=instalation.infra,
+                        registration_date=instalation.registration_date,
+                    )
+                )
+
+            return instalation_list
+
+        except Exception as e:
+            return None
