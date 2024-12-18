@@ -17,9 +17,14 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
+    main()
+
+    """
     connect = Connection()
     service = InstalationService(connect)
+    resutl = service.get_instalation_list()
+    for inst in resutl:
+        print(inst.name)
     instalation = Instalation(
         id=0,
         id_uuid=uuid.uuid4(),
@@ -37,3 +42,4 @@ if __name__ == "__main__":
         print("Salvo")
     else:
         print("error")
+    """

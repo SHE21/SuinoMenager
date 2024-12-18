@@ -14,6 +14,11 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
+from data.connection.Connection import Connection
+from data.service.InstalationService import InstalationService
+from model.Instalation import Instalation
+from presentation.InstalationDialogForm import InstalationFormDialog
+from presentation.InstalationListWidget import InstalationListWidget, OnClickListener
 from presentation.SuinoListWidget import SuinoListWidget
 from presentation.SuinoForm import SuinoForm
 from presentation.instalation.GranjaWindow import GranjaWindow
@@ -30,6 +35,7 @@ STYLE_DOCK = """QWidget {
 class MainPanel(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.connection = Connection()
         screen_geometry = QApplication.primaryScreen().availableGeometry()
         self.setWindowIcon(QIcon("src/images/icon_window.png"))
         self.setWindowTitle("Suino Gerenciador")
@@ -44,9 +50,11 @@ class MainPanel(QMainWindow):
         layout.setSizeConstraint(QVBoxLayout.SetDefaultConstraint)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        self.suino_list_widget = SuinoListWidget(screen_geometry)
-        self.suino_list_widget.load_list()
-        layout.addWidget(self.suino_list_widget)
+        self.instalation_service = InstalationService(self.connection)
+        instalation_list_result = self.instalation_service.get_instalation_list()
+        self.instalation_list_widget = InstalationListWidget(self.open_dialog_details)
+        self.instalation_list_widget.setList(instalation_list_result)
+        layout.addWidget(self.instalation_list_widget)
 
         self.create_toolbar()
         self.dock_widget()
@@ -65,7 +73,7 @@ class MainPanel(QMainWindow):
         # Ação para mostrar uma mensagem
         show_msg_action = QAction(QIcon(), "Mostrar Mensagem", self)
         show_msg_action.setStatusTip("Exibe uma mensagem de exemplo")
-        show_msg_action.triggered.connect(self.show_message)
+        # show_msg_action.triggered.connect(self.show_message)
 
         # Ação para fechar a aplicação
         exit_action = QAction(QIcon(), "Sair", self)
@@ -92,7 +100,7 @@ class MainPanel(QMainWindow):
         create_instalation_btn = QPushButton("Instalações")
         create_instalation_btn.setSizePolicy(QSizePolicy.Expanding, 50)
         create_instalation_btn.setStyleSheet(Style().FONTE_BUTTON_18PX)
-        create_instalation_btn.clicked.connect(self.open_instalation_manager)
+        create_instalation_btn.clicked.connect(self.open_instalation_form)
 
         dock_content = QWidget()
         layout = QVBoxLayout()
@@ -103,13 +111,13 @@ class MainPanel(QMainWindow):
         dock_left.setWidget(dock_content)
         self.addDockWidget(Qt.LeftDockWidgetArea, dock_left)
 
-    def show_message():
-        print("teste")
+    def open_dialog_details(self, instalation: Instalation):
+        print(f"{instalation.name}")
 
-    def open_instalation_manager(self):
-        self.granja_window = GranjaWindow()
-        if not self.granja_window or not self.granja_window.isVisible():
-            self.granja_window.show()
+    def open_instalation_form(self):
+        instalation_dialog = InstalationFormDialog()
+        instalation_dialog.dialog_closed.connect(self.on_dialog_closed)
+        instalation_dialog.exec_()
 
     @pyqtSlot()
     def open_form_add_suino(self):
@@ -120,7 +128,8 @@ class MainPanel(QMainWindow):
     @pyqtSlot(bool)
     def on_dialog_closed(self, result):
         if result:
-            self.suino_list_widget.load_list()
-            print("O diálogo foi fechado com OK.")
+            instalation_list_result = self.instalation_service.get_instalation_list()
+            self.instalation_list_widget.setList(instalation_list_result)
+            print("O diálogo foi fechado e os dados foram salvos.")
         else:
             print("O diálogo foi fechado com Cancelar.")
