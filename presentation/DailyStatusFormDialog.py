@@ -14,13 +14,13 @@ from data.service.NutritionService import NutritionService
 from data.service.HealthService import HealthService
 from model.Circle import Circle
 from model.Suino import Suino
-from presentation.HealthStatusForm import HealthStatusForm
-from presentation.NutritionStatusForm import NutritionStatusForm
-from presentation.UtilsWidget import validate_fields
+from presentation.HealthStatusFormWidget import HealthStatusFormWidget
+from presentation.NutritionStatusFormWidget import NutritionStatusFormWidget
+from utils.UtilsWidget import validate_fields
 from presentation.style.style import Style
 
 
-class DailyStatusForm(QDialog):
+class DailyStatusFormDialog(QDialog):
     dialog_closed = pyqtSignal(bool)
 
     def __init__(self, suino: Suino, circle: Circle, type_status_form: str):
@@ -56,11 +56,11 @@ class DailyStatusForm(QDialog):
         layout.addWidget(button_box)
 
     def init_form_health(self) -> QFormLayout:
-        self.form_layout = HealthStatusForm(self.suino, self.circle)
+        self.form_layout = HealthStatusFormWidget(self.suino, self.circle)
         return self.form_layout
 
     def init_form_nutrition(self):
-        self.form_layout = NutritionStatusForm(
+        self.form_layout = NutritionStatusFormWidget(
             self.suino, self.circle, NutritionService(connection=self.connection)
         )
         return self.form_layout
@@ -126,10 +126,10 @@ class DailyStatusForm(QDialog):
 
     @pyqtSlot()
     def accept(self):
-        if isinstance(self.form_layout, HealthStatusForm):
+        if isinstance(self.form_layout, HealthStatusFormWidget):
             self.create_health()
 
-        elif isinstance(self.form_layout, NutritionStatusForm):
+        elif isinstance(self.form_layout, NutritionStatusFormWidget):
             self.create_nutrition()
 
     @pyqtSlot()

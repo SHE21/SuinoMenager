@@ -20,10 +20,10 @@ from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
 from presentation.dialogs.Messagens import show_error_message
 from presentation.style.style import Style
-from utils.data import Strings
+from values import Strings
 
 
-class SuinoForm(QDialog):
+class SuinoFormDialog(QDialog):
     dialog_closed = pyqtSignal(bool)
 
     def __init__(self):

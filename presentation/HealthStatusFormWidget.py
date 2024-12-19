@@ -8,17 +8,17 @@ from PyQt5.QtWidgets import (
 from model.Circle import Circle
 from model.Health import Health
 from model.Suino import Suino
-from presentation.UtilsWidget import (
+from utils.UtilsWidget import (
     combo_box_text_input,
     date_input,
     line_edit_numb_input,
     line_edit_text_input,
 )
 from presentation.style.style import Style
-from utils.data import Strings
+from values import Strings
 
 
-class HealthStatusForm(QFormLayout):
+class HealthStatusFormWidget(QFormLayout):
     def __init__(self, suino: Suino, circle: Circle):
         self.suino = suino
         self.circle = circle

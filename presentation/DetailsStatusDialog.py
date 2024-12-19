@@ -14,7 +14,7 @@ from model.DailyStatus import DailyStatus
 from model.Health import Health
 from model.Nutrition import Nutrition
 from model.Suino import Suino
-from presentation import UtilsWidget
+from utils import UtilsWidget
 
 
 class DetailsStatusDialog(QDialog):

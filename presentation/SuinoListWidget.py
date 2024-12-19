@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
 from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
 from model.Suino import Suino
-from presentation.DetailsWidget import DetailsWidget
+from presentation.DetailsSuinoDialog import DetailsSuinoDialog
 from presentation.DialogWidget import DialogWidget
 from presentation.style.style import Style
 
@@ -65,5 +65,5 @@ class SuinoListWidget(QWidget):
 
     def show_details(self, title: str):
         if not self.details_widget or not self.details_widget.isVisible():
-            self.details_widget = DetailsWidget(title)
+            self.details_widget = DetailsSuinoDialog(title)
             self.details_widget.exec_()

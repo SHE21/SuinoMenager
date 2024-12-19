@@ -17,10 +17,10 @@ from PyQt5.QtCore import Qt
 from data.connection.Connection import Connection
 from data.service.InstalationService import InstalationService
 from model.Instalation import Instalation
-from presentation.InstalationDialogForm import InstalationFormDialog
-from presentation.InstalationListWidget import InstalationListWidget, OnClickListener
+from presentation.InstalationFormDialog import InstalationFormDialog
+from presentation.InstalationListWidget import InstalationListWidget
 from presentation.SuinoListWidget import SuinoListWidget
-from presentation.SuinoForm import SuinoForm
+from presentation.SuinoFormDialog import SuinoFormDialog
 from presentation.instalation.GranjaWindow import GranjaWindow
 from presentation.listeners import IDialogCallback
 from presentation.style.style import Style
@@ -121,7 +121,7 @@ class MainPanel(QMainWindow):
 
     @pyqtSlot()
     def open_form_add_suino(self):
-        self.add_suino = SuinoForm()
+        self.add_suino = SuinoFormDialog()
         self.add_suino.dialog_closed.connect(self.on_dialog_closed)
         self.add_suino.exec_()
 

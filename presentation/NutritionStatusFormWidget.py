@@ -7,11 +7,11 @@ from data.service.NutritionService import NutritionService
 from model.Circle import Circle
 from model.Nutrition import Nutrition
 from model.Suino import Suino
-from presentation.UtilsWidget import line_edit_numb_input, line_edit_text_input
+from utils.UtilsWidget import line_edit_numb_input, line_edit_text_input
 from presentation.style.style import Style
 
 
-class NutritionStatusForm(QFormLayout):
+class NutritionStatusFormWidget(QFormLayout):
     def __init__(self, suino: Suino, circle: Circle, service: ServiceInterface):
         self.suino = suino
         self.circle = circle

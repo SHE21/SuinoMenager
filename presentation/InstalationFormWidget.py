@@ -11,12 +11,12 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 
 from model.Instalation import Instalation
-from presentation.UtilsWidget import line_edit_numb_input, line_edit_text_input
+from utils.UtilsWidget import line_edit_numb_input, line_edit_text_input
 from presentation.style.style import Style
 from utils.Utils import get_datetime
 
 
-class InstalationLayoutForm(QFormLayout):
+class InstalationFormWidget(QFormLayout):
 
     def __init__(self):
         super().__init__()

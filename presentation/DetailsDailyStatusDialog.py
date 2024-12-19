@@ -14,8 +14,8 @@ from PyQt5.QtCore import pyqtSlot
 from model.Circle import Circle
 from model.DailyStatus import DailyStatus
 from model.Suino import Suino
-from presentation import UtilsWidget
-from presentation.DailyStatusForm import DailyStatusForm
+from utils import UtilsWidget
+from presentation.DailyStatusFormDialog import DailyStatusFormDialog
 from presentation.DailyStatusListWidget import DailyStatusListWidget
 from presentation.DetailsStatusDialog import DetailsStatusDialog
 from presentation.style.style import Style
@@ -90,7 +90,9 @@ class DetailsDailyStatusDialog(QDialog):
 
     @pyqtSlot()
     def open_daily_status_form(self, type_status_form: str):
-        daily_status_form = DailyStatusForm(self.suino, self.circle, type_status_form)
+        daily_status_form = DailyStatusFormDialog(
+            self.suino, self.circle, type_status_form
+        )
         daily_status_form.dialog_closed.connect(self.on_dialog_closed)
         daily_status_form.exec_()
 

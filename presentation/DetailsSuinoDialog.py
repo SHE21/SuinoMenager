@@ -17,7 +17,7 @@ from PyQt5.QtCore import pyqtSlot
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
 from data.service.SuinoService import SuinoService
-from presentation import UtilsWidget
+from utils import UtilsWidget
 from presentation.CircleForm import CircleForm
 from presentation.CircleListWidget import CircleListWdiget
 from presentation.listeners.IDialogCallback import IDialogCallback
@@ -26,7 +26,7 @@ from presentation.style.style import Style
 from utils.Utils import calculate_days
 
 
-class DetailsWidget(QDialog):
+class DetailsSuinoDialog(QDialog):
     def __init__(self, uuid: int):
         super().__init__()
         self.connection = Connection()

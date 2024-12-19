@@ -14,8 +14,8 @@ from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 
 from data.connection.Connection import Connection
 from data.service.InstalationService import InstalationService
-from presentation.InstalationLayoutForm import InstalationLayoutForm
-from presentation.UtilsWidget import validate_fields
+from presentation.InstalationFormWidget import InstalationFormWidget
+from utils.UtilsWidget import validate_fields
 from presentation.style.style import Style
 
 
@@ -39,7 +39,7 @@ class InstalationFormDialog(QDialog):
         return self.layout_v
 
     def init_instalation_form(self) -> QFormLayout:
-        self.instalation_form = InstalationLayoutForm()
+        self.instalation_form = InstalationFormWidget()
         return self.instalation_form
 
     def init_dialog_buttons(self) -> QDialogButtonBox:

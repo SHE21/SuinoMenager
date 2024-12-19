@@ -22,7 +22,7 @@ from model.Circle import get_list_circle_name
 from presentation.listeners.IDialogCallback import IDialogCallback
 from presentation.style.style import Style
 from utils.Utils import filter_circle_list
-from utils.data import Strings
+from values import Strings
 
 
 class CircleForm(QDialog):
