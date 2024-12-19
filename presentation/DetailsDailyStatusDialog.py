@@ -11,6 +11,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 
+from assets.strings.Strings import ICON_APP
 from model.Circle import Circle
 from model.DailyStatus import DailyStatus
 from model.Suino import Suino
@@ -27,7 +28,7 @@ class DetailsDailyStatusDialog(QDialog):
         super().__init__()
         self.suino = suino
         self.circle = circle
-        self.setWindowIcon(QIcon("src/images/icon_window.png"))
+        self.setWindowIcon(QIcon(ICON_APP))
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         self.setWindowTitle(f"Ciclo - {circle.circle_name}")
         self.setLayout(self.init_layout())

@@ -20,7 +20,7 @@ from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
 from presentation.dialogs.Messagens import show_error_message
 from presentation.style.style import Style
-from values import Strings
+from assets.strings import Strings
 
 
 class SuinoFormDialog(QDialog):

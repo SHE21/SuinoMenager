@@ -1,3 +1,4 @@
+ICON_APP = "assets/images/icon_window.png"
 suino_races = [
     "---Selecione uma raça----",
     # Raças Comerciais

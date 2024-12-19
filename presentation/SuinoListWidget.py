@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import (
     QLabel,
     QHBoxLayout,
     QDialog,
-    QSizePolicy,
 )
 
 from data.connection.Connection import Connection

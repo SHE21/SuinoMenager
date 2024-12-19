@@ -15,7 +15,7 @@ from utils.UtilsWidget import (
     line_edit_text_input,
 )
 from presentation.style.style import Style
-from values import Strings
+from assets.strings import Strings
 
 
 class HealthStatusFormWidget(QFormLayout):
