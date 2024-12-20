@@ -21,7 +21,7 @@ def get_instalation_model(db_connection: MySQLDatabase):
 
         class Meta:
             database = db_connection  # Define o banco de dados para o modelo
-            table_name = "instalation"  # Nome da tabela no banco de dados
+            table_name = "instalations"  # Nome da tabela no banco de dados
 
     db_connection.create_tables([InstalationModel], safe=True)
     return InstalationModel
