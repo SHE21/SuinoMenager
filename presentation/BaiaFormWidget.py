@@ -9,7 +9,6 @@ from model.Baia import Baia
 from utils.Utils import get_datetime
 from utils.UtilsWidget import (
     combo_box_text_input,
-    date_input,
     line_edit_numb_input,
     line_edit_text_input,
 )
