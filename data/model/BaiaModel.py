@@ -10,7 +10,7 @@ from peewee import (
 
 
 def get_baia_model(db_connection: MySQLDatabase):
-    class Baia(Model):
+    class BaiaModel(Model):
         id = AutoField(primary_key=True)
         id_uuid = CharField(max_length=50)
         id_uuid_instalation = CharField(max_length=50)
@@ -25,5 +25,5 @@ def get_baia_model(db_connection: MySQLDatabase):
             database = db_connection  # Define o banco de dados para o modelo
             table_name = "baias"  # Nome da tabela no banco de dados
 
-    db_connection.create_tables([Baia], safe=True)
-    return Baia
+    db_connection.create_tables([BaiaModel], safe=True)
+    return BaiaModel
