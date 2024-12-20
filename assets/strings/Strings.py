@@ -1,4 +1,9 @@
 ICON_APP = "assets/images/icon_window.png"
+# TITLES
+MAIN_PANEL_TITLE = "Suino Gerenciador"
+MAIN_PANEL_TOOLBAR_TITLE = "Minha Barra de Ferramentas"
+MAIN_PANEL_BUTTON_ADD_SUINO = "Adicionar Suino"
+MAIN_PANEL_BUTTON_ADD_INSTALATION = "Adicionar Instalation"
 suino_races = [
     "---Selecione uma raça----",
     # Raças Comerciais

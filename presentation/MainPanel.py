@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (
     QWidget,
     QApplication,
     QSizePolicy,
-    QDesktopWidget,
     QPushButton,
     QVBoxLayout,
     QMainWindow,
@@ -14,6 +13,13 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
+from assets.strings.Strings import (
+    ICON_APP,
+    MAIN_PANEL_TITLE,
+    MAIN_PANEL_TOOLBAR_TITLE,
+    MAIN_PANEL_BUTTON_ADD_SUINO,
+    MAIN_PANEL_BUTTON_ADD_INSTALATION,
+)
 from data.connection.Connection import Connection
 from data.service.InstalationService import InstalationService
 from model.Instalation import Instalation
@@ -21,8 +27,6 @@ from presentation.InstalationFormDialog import InstalationFormDialog
 from presentation.InstalationListWidget import InstalationListWidget
 from presentation.SuinoListWidget import SuinoListWidget
 from presentation.SuinoFormDialog import SuinoFormDialog
-from presentation.instalation.GranjaWindow import GranjaWindow
-from presentation.listeners import IDialogCallback
 from presentation.style.style import Style
 from utils.Utils import get_taskbar_dimensions
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
@@ -37,8 +41,8 @@ class MainPanel(QMainWindow):
         super().__init__()
         self.connection = Connection()
         screen_geometry = QApplication.primaryScreen().availableGeometry()
-        self.setWindowIcon(QIcon("src/images/icon_window.png"))
-        self.setWindowTitle("Suino Gerenciador")
+        self.setWindowIcon(QIcon(ICON_APP))
+        self.setWindowTitle(MAIN_PANEL_TITLE)
         self.resize(screen_geometry.width(), screen_geometry.height() - 40)
 
         self.add_suino = None
@@ -64,7 +68,7 @@ class MainPanel(QMainWindow):
 
     def create_toolbar(self):
         # Criando a barra de ferramentas
-        toolbar = QToolBar("Minha Barra de Ferramentas")
+        toolbar = QToolBar(MAIN_PANEL_TOOLBAR_TITLE)
         toolbar.setMovable(True)  # Permite mover a barra de ferramentas
         self.addToolBar(
             Qt.TopToolBarArea, toolbar
@@ -92,12 +96,12 @@ class MainPanel(QMainWindow):
         )  # Áreas permitidas para o dock
         dock_left.setStyleSheet(STYLE_DOCK)
 
-        create_suino_button = QPushButton("Adicionar Suino")
+        create_suino_button = QPushButton(MAIN_PANEL_BUTTON_ADD_SUINO)
         create_suino_button.setSizePolicy(QSizePolicy.Expanding, 50)
         create_suino_button.setStyleSheet(Style().FONTE_BUTTON_18PX)
         create_suino_button.clicked.connect(self.open_form_add_suino)
 
-        create_instalation_btn = QPushButton("Instalações")
+        create_instalation_btn = QPushButton(MAIN_PANEL_BUTTON_ADD_INSTALATION)
         create_instalation_btn.setSizePolicy(QSizePolicy.Expanding, 50)
         create_instalation_btn.setStyleSheet(Style().FONTE_BUTTON_18PX)
         create_instalation_btn.clicked.connect(self.open_instalation_form)
