@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
     QToolBar,
     QAction,
     QDockWidget,
+    QHBoxLayout,
 )
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
@@ -20,6 +21,7 @@ from assets.strings.Strings import (
     MAIN_PANEL_BUTTON_ADD_SUINO,
     MAIN_PANEL_BUTTON_ADD_INSTALATION,
 )
+from config import TYPE_USER
 from data.connection.Connection import Connection
 from data.service.InstalationService import InstalationService
 from model.Instalation import Instalation
@@ -43,30 +45,63 @@ class MainPanel(QMainWindow):
         screen_geometry = QApplication.primaryScreen().availableGeometry()
         self.setWindowIcon(QIcon(ICON_APP))
         self.setWindowTitle(MAIN_PANEL_TITLE)
-        self.resize(screen_geometry.width(), screen_geometry.height() - 40)
+        self.resize(screen_geometry.width() - 100, screen_geometry.height() - 200)
 
         self.add_suino = None
 
         # Layouts
+        self.init_layout_center()
+        self.init_layout_button()
+
+        self.init_config_center()
+        self.init_toolbar()
+
+    def init_layout_center(self):
         self.central_widget = QWidget(self)
         self.central_widget.setStyleSheet(STYLE_DOCK)
-        layout = QVBoxLayout()
-        layout.setSizeConstraint(QVBoxLayout.SetDefaultConstraint)
-        layout.setContentsMargins(0, 0, 0, 0)
+        self.layout_center = QHBoxLayout()
+        self.layout_center.setSizeConstraint(QVBoxLayout.SetDefaultConstraint)
+        self.layout_center.setContentsMargins(0, 0, 0, 0)
+        self.central_widget.setLayout(self.layout_center)
+        self.setCentralWidget(self.central_widget)
 
+    def init_layout_button(self):
+        button_widget = QWidget(self)
+        button_widget.setFixedWidth(190)
+        self.layout_section_button = QVBoxLayout()
+        self.layout_section_button.setContentsMargins(7, 7, 0, 0)
+        self.layout_section_button.setAlignment(Qt.AlignTop | Qt.AlignVCenter)
+        self.layout_section_button.setSizeConstraint(QVBoxLayout.SetDefaultConstraint)
+        button_widget.setLayout(self.layout_section_button)
+        self.layout_center.addWidget(button_widget)
+
+    def init_content_layout_button(self):
+        create_instalation_btn = QPushButton(MAIN_PANEL_BUTTON_ADD_INSTALATION)
+        create_instalation_btn.setSizePolicy(QSizePolicy.Expanding, 50)
+        create_instalation_btn.setStyleSheet(Style().FONTE_BUTTON_18PX)
+        create_instalation_btn.clicked.connect(self.open_instalation_form)
+        self.layout_section_button.addWidget(create_instalation_btn)
+
+    def init_config_center(self):
+        if TYPE_USER == "manager":
+            self.init_content_layout_button()
+            self.init_content_layout_left()
+            self.init_content_layout_right()
+
+    def init_content_layout_right(self):
+        # mudar conteudo para lista
+        btn = QPushButton("teste")
+        btn.setBaseSize(200, 40)
+        self.layout_center.addWidget(btn)
+
+    def init_content_layout_left(self):
         self.instalation_service = InstalationService(self.connection)
         instalation_list_result = self.instalation_service.get_instalation_list()
         self.instalation_list_widget = InstalationListWidget(self.open_dialog_details)
         self.instalation_list_widget.setList(instalation_list_result)
-        layout.addWidget(self.instalation_list_widget)
+        self.layout_center.addWidget(self.instalation_list_widget)
 
-        self.create_toolbar()
-        self.dock_widget()
-
-        self.central_widget.setLayout(layout)
-        self.setCentralWidget(self.central_widget)
-
-    def create_toolbar(self):
+    def init_toolbar(self):
         # Criando a barra de ferramentas
         toolbar = QToolBar(MAIN_PANEL_TOOLBAR_TITLE)
         toolbar.setMovable(True)  # Permite mover a barra de ferramentas
@@ -88,7 +123,7 @@ class MainPanel(QMainWindow):
         toolbar.addAction(show_msg_action)
         toolbar.addAction(exit_action)
 
-    def dock_widget(self):
+    def init_dock(self):
         dock_left = QDockWidget()
         dock_left.setFeatures(QDockWidget.NoDockWidgetFeatures)
         dock_left.setAllowedAreas(
