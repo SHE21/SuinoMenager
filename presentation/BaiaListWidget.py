@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (
 )
 
 from model.Baia import Baia
-from presentation.style.style import Style
+from assets.style.style import LIST, STYLE_LABEL_HEALTH
 
 
 class BaiaListWidget(QListWidget):
@@ -18,8 +18,8 @@ class BaiaListWidget(QListWidget):
         self.baia_list: list[Baia] = []
         super().__init__()
         screen_geometry = QApplication.primaryScreen().availableGeometry()
-        self.setFixedSize(400, screen_geometry.height() - 110)
-        self.setStyleSheet(Style.LIST)
+        self.setFixedSize(1220, 600)
+        self.setStyleSheet(LIST)
 
     def setList(self, baia_list: list[Baia]):
         self.clear()
@@ -43,7 +43,7 @@ class BaiaListWidget(QListWidget):
         line_push_button.clicked.connect(lambda: self.open_details(baia))
         line_push_button.setFixedSize(100, 30)
         title_text = QLabel(baia.label)
-        title_text.setStyleSheet(Style.STYLE_LABEL_HEALTH)
+        title_text.setStyleSheet(STYLE_LABEL_HEALTH)
 
         item_layout = QHBoxLayout()
         item_layout.setContentsMargins(0, 1, 0, 1)

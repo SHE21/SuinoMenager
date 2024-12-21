@@ -21,15 +21,20 @@ from assets.strings.Strings import (
     MAIN_PANEL_BUTTON_ADD_SUINO,
     MAIN_PANEL_BUTTON_ADD_INSTALATION,
 )
+from assets.style.style import FONTE_BUTTON_18PX
 from config import TYPE_USER
 from data.connection.Connection import Connection
+from data.service.BaiaService import BaiaService
 from data.service.InstalationService import InstalationService
 from model.Instalation import Instalation
-from presentation.InstalationContentHeader import InstalationContentHeader
+from presentation.BaiaFormWidget import BaiaFormWidget
+from presentation.BaiaListWidget import BaiaListWidget
+from presentation.RightContent import RightContent
+from presentation.RightHeader import RightHeader
 from presentation.InstalationFormDialog import InstalationFormDialog
 from presentation.InstalationListWidget import InstalationListWidget
-from presentation.SuinoListWidget import SuinoListWidget
 from presentation.SuinoFormDialog import SuinoFormDialog
+from presentation.ToolbarWidget import ToolbarWidget
 from presentation.style.style import Style
 from utils.Utils import get_taskbar_dimensions
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
@@ -43,6 +48,7 @@ class MainPanel(QMainWindow):
     def __init__(self):
         super().__init__()
         self.connection = Connection()
+        self.baia_service = BaiaService(self.connection)
         screen_geometry = QApplication.primaryScreen().availableGeometry()
         self.setWindowIcon(QIcon(ICON_APP))
         self.setWindowTitle(MAIN_PANEL_TITLE)
@@ -79,7 +85,7 @@ class MainPanel(QMainWindow):
     def init_content_layout_button(self):
         create_instalation_btn = QPushButton(MAIN_PANEL_BUTTON_ADD_INSTALATION)
         create_instalation_btn.setSizePolicy(QSizePolicy.Expanding, 50)
-        create_instalation_btn.setStyleSheet(Style().FONTE_BUTTON_18PX)
+        create_instalation_btn.setStyleSheet(FONTE_BUTTON_18PX)
         create_instalation_btn.clicked.connect(self.open_instalation_form)
         self.layout_section_button.addWidget(create_instalation_btn)
 
@@ -90,8 +96,19 @@ class MainPanel(QMainWindow):
             self.init_content_layout_right()
 
     def init_content_layout_right(self):
-        self.instalation_content_header = InstalationContentHeader()
-        self.layout_center.addWidget(self.instalation_content_header)
+        self.right_content = RightContent()
+
+        self.instalation_content_header = RightHeader()
+        self.toolbar_widget = ToolbarWidget("")
+        self.toolbar_widget.hide()
+        self.toolbar_widget.addButtons(self.init_toolbar_buttons())
+        self.baia_list = BaiaListWidget(self.open_dialog_)
+        self.baia_list.hide()
+
+        self.right_content.addWidget(self.instalation_content_header)
+        self.right_content.addWidget(self.toolbar_widget)
+        self.right_content.addWidget(self.baia_list)
+        self.layout_center.addWidget(self.right_content)
 
     def init_content_layout_left(self):
         self.instalation_service = InstalationService(self.connection)
@@ -122,36 +139,24 @@ class MainPanel(QMainWindow):
         toolbar.addAction(show_msg_action)
         toolbar.addAction(exit_action)
 
-    def init_dock(self):
-        dock_left = QDockWidget()
-        dock_left.setFeatures(QDockWidget.NoDockWidgetFeatures)
-        dock_left.setAllowedAreas(
-            Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea
-        )  # Áreas permitidas para o dock
-        dock_left.setStyleSheet(STYLE_DOCK)
-
+    def init_toolbar_buttons(self) -> list[QPushButton]:
+        button_list = []
         create_suino_button = QPushButton(MAIN_PANEL_BUTTON_ADD_SUINO)
         create_suino_button.setSizePolicy(QSizePolicy.Expanding, 50)
-        create_suino_button.setStyleSheet(Style().FONTE_BUTTON_18PX)
-        create_suino_button.clicked.connect(self.open_form_add_suino)
+        create_suino_button.setFixedWidth(190)
+        create_suino_button.setStyleSheet(FONTE_BUTTON_18PX)
+        create_suino_button.clicked.connect(self.open_dialog_baia_form)
+        button_list.append(create_suino_button)
+        return button_list
 
-        create_instalation_btn = QPushButton(MAIN_PANEL_BUTTON_ADD_INSTALATION)
-        create_instalation_btn.setSizePolicy(QSizePolicy.Expanding, 50)
-        create_instalation_btn.setStyleSheet(Style().FONTE_BUTTON_18PX)
-        create_instalation_btn.clicked.connect(self.open_instalation_form)
-
-        dock_content = QWidget()
-        layout = QVBoxLayout()
-        layout.addWidget(create_suino_button, alignment=Qt.AlignTop)
-        layout.addWidget(create_instalation_btn, alignment=Qt.AlignTop)
-        dock_content.setLayout(layout)
-
-        dock_left.setWidget(dock_content)
-        self.addDockWidget(Qt.LeftDockWidgetArea, dock_left)
+    def open_dialog_baia_form(self):
+        baia_form = BaiaFormWidget()
+        baia_form.s
 
     def open_dialog_details(self, instalation: Instalation):
+        self.toolbar_widget.show()
+        self.baia_list.show()
         self.instalation_content_header.update(instalation)
-        print(f"{instalation.name}")
 
     def open_instalation_form(self):
         instalation_dialog = InstalationFormDialog()
