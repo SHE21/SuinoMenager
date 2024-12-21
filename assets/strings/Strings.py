@@ -43,3 +43,5 @@ circle_list_color = [
 
 medicine_type_list = ["Antibiótico"]
 administration_type_list = ["Intramuscular"]
+baia_type_list = ["Creche", "Angorda", "Maternidade"]
+baia_status_list = ["Ativada", "Desativada"]
