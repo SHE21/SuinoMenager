@@ -25,6 +25,7 @@ from config import TYPE_USER
 from data.connection.Connection import Connection
 from data.service.InstalationService import InstalationService
 from model.Instalation import Instalation
+from presentation.InstalationContentHeader import InstalationContentHeader
 from presentation.InstalationFormDialog import InstalationFormDialog
 from presentation.InstalationListWidget import InstalationListWidget
 from presentation.SuinoListWidget import SuinoListWidget
@@ -89,10 +90,8 @@ class MainPanel(QMainWindow):
             self.init_content_layout_right()
 
     def init_content_layout_right(self):
-        # mudar conteudo para lista
-        btn = QPushButton("teste")
-        btn.setBaseSize(200, 40)
-        self.layout_center.addWidget(btn)
+        self.instalation_content_header = InstalationContentHeader()
+        self.layout_center.addWidget(self.instalation_content_header)
 
     def init_content_layout_left(self):
         self.instalation_service = InstalationService(self.connection)
@@ -151,6 +150,7 @@ class MainPanel(QMainWindow):
         self.addDockWidget(Qt.LeftDockWidgetArea, dock_left)
 
     def open_dialog_details(self, instalation: Instalation):
+        self.instalation_content_header.update(instalation)
         print(f"{instalation.name}")
 
     def open_instalation_form(self):
