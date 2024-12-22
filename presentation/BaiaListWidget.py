@@ -13,12 +13,12 @@ from assets.style.style import LIST, STYLE_LABEL_HEALTH
 
 
 class BaiaListWidget(QListWidget):
-    def __init__(self, open_details):
-        self.open_details = open_details
+    def __init__(self, on_click_item_baia_list):
+        self.on_click_item_baia_list = on_click_item_baia_list
         self.baia_list: list[Baia] = []
         super().__init__()
         screen_geometry = QApplication.primaryScreen().availableGeometry()
-        self.setFixedSize(1220, 600)
+        self.setFixedSize(1220, 680)
         self.setStyleSheet(LIST)
 
     def setList(self, baia_list: list[Baia]):
@@ -40,7 +40,7 @@ class BaiaListWidget(QListWidget):
 
     def init_item_list(self, baia: Baia) -> QHBoxLayout:
         line_push_button = QPushButton("ver mais")
-        line_push_button.clicked.connect(lambda: self.open_details(baia))
+        line_push_button.clicked.connect(lambda: self.on_click_item_baia_list(baia))
         line_push_button.setFixedSize(100, 30)
         title_text = QLabel(baia.label)
         title_text.setStyleSheet(STYLE_LABEL_HEALTH)

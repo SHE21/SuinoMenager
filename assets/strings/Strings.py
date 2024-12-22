@@ -1,9 +1,21 @@
 ICON_APP = "assets/images/icon_window.png"
+
 # TITLES
 MAIN_PANEL_TITLE = "Suino Gerenciador"
 MAIN_PANEL_TOOLBAR_TITLE = "Minha Barra de Ferramentas"
 MAIN_PANEL_BUTTON_ADD_SUINO = "Adicionar Suino"
 MAIN_PANEL_BUTTON_ADD_INSTALATION = "Adicionar Granja"
+DIALOG_TITLE_REGISTER_BAIA = "Registrar Baia"
+DIALOG_TITLE_REGISTER_INSTALATION = "Registrar Granja"
+
+# ACTION_TITLE
+ACTION_TITLE_REGISTER = "Registrar"
+ACTION_TITLE_CANCEL = "Cancelar"
+
+# WARNINGS
+WARNINGS_TITLE_EMPTY_FIELDS = "Campos estão vazios"
+WARNINGS_MSN_EMPTY_FIELDS = "Os seguintes campos estão vazios:\n"
+
 suino_races = [
     "---Selecione uma raça----",
     # Raças Comerciais

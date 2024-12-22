@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import (
     QMainWindow,
     QToolBar,
     QAction,
-    QDockWidget,
     QHBoxLayout,
 )
 from PyQt5.QtGui import QIcon
@@ -18,7 +17,7 @@ from assets.strings.Strings import (
     ICON_APP,
     MAIN_PANEL_TITLE,
     MAIN_PANEL_TOOLBAR_TITLE,
-    MAIN_PANEL_BUTTON_ADD_SUINO,
+    DIALOG_TITLE_REGISTER_BAIA,
     MAIN_PANEL_BUTTON_ADD_INSTALATION,
 )
 from assets.style.style import FONTE_BUTTON_18PX
@@ -26,7 +25,9 @@ from config import TYPE_USER
 from data.connection.Connection import Connection
 from data.service.BaiaService import BaiaService
 from data.service.InstalationService import InstalationService
+from model.Baia import Baia
 from model.Instalation import Instalation
+from presentation.BaiaFormDialog import BaiaFormDialog
 from presentation.BaiaFormWidget import BaiaFormWidget
 from presentation.BaiaListWidget import BaiaListWidget
 from presentation.RightContent import RightContent
@@ -96,19 +97,15 @@ class MainPanel(QMainWindow):
             self.init_content_layout_right()
 
     def init_content_layout_right(self):
-        self.right_content = RightContent()
-
-        self.instalation_content_header = RightHeader()
-        self.toolbar_widget = ToolbarWidget("")
-        self.toolbar_widget.hide()
-        self.toolbar_widget.addButtons(self.init_toolbar_buttons())
-        self.baia_list = BaiaListWidget(self.open_dialog_)
-        self.baia_list.hide()
-
-        self.right_content.addWidget(self.instalation_content_header)
-        self.right_content.addWidget(self.toolbar_widget)
-        self.right_content.addWidget(self.baia_list)
+        self.right_content = RightContent(
+            on_click_item_baia_list=self.on_click_item_baia_list,
+            open_dialog_baia_form=self.open_dialog_baia_form,
+        )
         self.layout_center.addWidget(self.right_content)
+
+    def on_click_item_baia_list(self, baia: Baia):
+        print(baia.to_string())
+        pass
 
     def init_content_layout_left(self):
         self.instalation_service = InstalationService(self.connection)
@@ -139,24 +136,20 @@ class MainPanel(QMainWindow):
         toolbar.addAction(show_msg_action)
         toolbar.addAction(exit_action)
 
-    def init_toolbar_buttons(self) -> list[QPushButton]:
-        button_list = []
-        create_suino_button = QPushButton(MAIN_PANEL_BUTTON_ADD_SUINO)
-        create_suino_button.setSizePolicy(QSizePolicy.Expanding, 50)
-        create_suino_button.setFixedWidth(190)
-        create_suino_button.setStyleSheet(FONTE_BUTTON_18PX)
-        create_suino_button.clicked.connect(self.open_dialog_baia_form)
-        button_list.append(create_suino_button)
-        return button_list
+    def open_dialog_baia_form(self, instalation: Instalation):
+        baia_form = BaiaFormDialog(instalation)
+        baia_form.closed_dialog_baia_form.connect(self.closed_dialog_baia_form)
+        baia_form.exec_()
 
-    def open_dialog_baia_form(self):
-        baia_form = BaiaFormWidget()
-        baia_form.s
+    def closed_dialog_baia_form(self, result):
+        if result:
+            self.right_content.load_baia_list()
+            print("O diálogo foi fechado e os dados foram salvos.")
+        else:
+            print("O diálogo foi fechado com Cancelar.")
 
     def open_dialog_details(self, instalation: Instalation):
-        self.toolbar_widget.show()
-        self.baia_list.show()
-        self.instalation_content_header.update(instalation)
+        self.right_content.updated_content(instalation)
 
     def open_instalation_form(self):
         instalation_dialog = InstalationFormDialog()

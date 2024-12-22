@@ -1,6 +1,7 @@
 from data.model import BaiaModel
 from data.connection.Connection import Connection
 from model.Baia import Baia
+from model.Instalation import Instalation
 
 
 class BaiaService:
@@ -26,10 +27,10 @@ class BaiaService:
         except Exception as e:
             return None
 
-    def get_baias_by_instalation(self, id_uuid_instalation: str) -> list[Baia]:
+    def get_baias_by_instalation(self, instalation: Instalation) -> list[Baia]:
         try:
             baias_result = self.baia_model.select().where(
-                self.baia_model.id_uuid_instalation == id_uuid_instalation
+                self.baia_model.id_uuid_instalation == instalation.id_uuid
             )
             baia_list = []
 
