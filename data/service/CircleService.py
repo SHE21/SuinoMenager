@@ -2,6 +2,7 @@ from datetime import date
 from data.connection.Connection import Connection
 from data.model import CircleModel
 from data.model import HealthModel
+from model.Baia import Baia
 from model.Circle import Circle
 
 
@@ -15,7 +16,7 @@ class CircleService:
     def create_circle(
         self,
         id_uuid: str,
-        id_uuid_suino: str,
+        id_uuid_baia: str,
         circle_name: str,
         start_date: date,
         end_date: date,
@@ -26,7 +27,7 @@ class CircleService:
         try:
             result = self.circle_model.create(
                 id_uuid=id_uuid,
-                id_uuid_suino=id_uuid_suino,
+                id_uuid_baia=id_uuid_baia,
                 circle_name=circle_name,
                 start_date=start_date,
                 end_date=end_date,
@@ -53,9 +54,9 @@ class CircleService:
             registration_date=circle_result.registration_date,
         )
 
-    def get_circles_by_uuid_suino(self, id_uuid_suino: str) -> list[Circle]:
+    def get_circles_by_uuid_baia(self, baia: Baia) -> list[Circle]:
         circle_result = self.circle_model.select().where(
-            self.circle_model.id_uuid_suino == id_uuid_suino
+            self.circle_model.id_uuid_baia == baia.id_uuid
         )
         circle_list = []
 
@@ -64,7 +65,7 @@ class CircleService:
                 Circle(
                     id=circle.id,
                     id_uuid=circle.id_uuid,
-                    id_uuid_suino=circle.id_uuid_suino,
+                    id_uuid_baia=circle.id_uuid_baia,
                     circle_name=circle.circle_name,
                     start_date=circle.start_date,
                     end_date=circle.end_date,

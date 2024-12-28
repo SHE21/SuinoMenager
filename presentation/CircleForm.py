@@ -17,6 +17,7 @@ from PyQt5.QtGui import QIcon
 
 from data.connection.Connection import Connection
 from data.service.CircleService import CircleService
+from model.Baia import Baia
 from model.Circle import Circle
 from model.Circle import get_list_circle_name
 from presentation.listeners.IDialogCallback import IDialogCallback
@@ -28,7 +29,7 @@ from assets.strings import Strings
 class CircleForm(QDialog):
     dialog_closed = pyqtSignal(bool)
 
-    def __init__(self, id_uuid_suino: str, circle_list: list[Circle]):
+    def __init__(self, baia: Baia, circle_list: list[Circle]):
         super().__init__()
         self.setWindowTitle("Registrar Ciclo")
         self.setWindowIcon(QIcon("src/images/icon_window.png"))
@@ -43,21 +44,21 @@ class CircleForm(QDialog):
         self.circle_input.addItem("-- selecione um ciclo --", 0)
         self.circle_input.setStyleSheet(Style().FONTE_COMBO_BOX)
 
-        control_list = get_list_circle_name(circle_list)
+        """control_list = get_list_circle_name(circle_list)
         original_list = Strings.circle_list_combo
 
         option_circle_name_list = filter_circle_list(
             original_list,
             control_list,
-        )
-        self.circle_input.addItems(option_circle_name_list)
+        )"""
+        self.circle_input.addItems(circle_list)
 
         button_box = QDialogButtonBox()
         button_box.setStyleSheet(Style().BUTTON_DIALOG)
         save_button = QPushButton("Salvar")
         cancel_button = QPushButton("Cancelar")
 
-        save_button.clicked.connect(lambda: self.accept(id_uuid_suino))
+        save_button.clicked.connect(lambda: self.accept(baia))
         cancel_button.clicked.connect(self.reject)
 
         # Adicionar os botões ao QDialogButtonBox
@@ -92,7 +93,7 @@ class CircleForm(QDialog):
         self.setFixedSize(820, 720)
 
     @pyqtSlot()
-    def accept(self, id_uuid_suino: str):
+    def accept(self, baia: Baia):
         circle_name = self.circle_input.currentText()
         start_date = self.date_start_input.date().toString("yyyy-MM-dd")
         end_date = "0000-00-00"
@@ -102,7 +103,7 @@ class CircleForm(QDialog):
 
         result = self.circle_service.create_circle(
             id_uuid=uuid.uuid4(),
-            id_uuid_suino=id_uuid_suino,
+            id_uuid_baia=baia.id_uuid,
             circle_name=circle_name,
             start_date=start_date,
             end_date=end_date,
