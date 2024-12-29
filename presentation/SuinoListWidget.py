@@ -6,63 +6,46 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QLabel,
     QHBoxLayout,
-    QDialog,
 )
 
-from data.connection.Connection import Connection
-from data.service.SuinoService import SuinoService
 from model.Suino import Suino
-from presentation.DetailsSuinoDialog import DetailsSuinoDialog
-from presentation.DialogWidget import DialogWidget
 from presentation.style.style import Style
 
 
-class SuinoListWidget(QWidget):
-    def __init__(self, screen_geometry):
+class SuinoListWidget(QListWidget):
+    def __init__(self, open_dialog_details):
+        self.suino_list: list[Suino] = []
+        self.open_dialog_details = open_dialog_details
         super().__init__()
-        self.connection = Connection()
-        self.suino_service = SuinoService(self.connection)
-        self.list_widget = QListWidget(self)
-        self.list_widget.setStyleSheet(Style().LIST)
-        self.list_widget.setFixedSize(
-            screen_geometry.width() - 180, screen_geometry.height() - 40
-        )
-        self.details_widget = None
-        self.list_widget.show()
+        self.setFixedSize(920, 580)
+        self.setStyleSheet(Style().LIST)
 
-    def addItem(self, suino: Suino):
+    def addCustomItem(self, suino: Suino):
         item = QListWidgetItem()
         item_widget = QWidget()
         line_text = QLabel(f"TAG: {suino.id_tag}")
         line_text.setStyleSheet(Style().FONTE_ITEN_LIST)
         line_push_button = QPushButton("Detalhes")
-        line_push_button.clicked.connect(lambda: self.show_details(suino.id_uuid))
+        line_push_button.clicked.connect(lambda: self.open_dialog_details(suino))
         line_push_button.setFixedSize(100, 30)
         item_layout = QHBoxLayout()
         item_layout.addWidget(line_text, 3)
         item_layout.addWidget(line_push_button)
         item_widget.setLayout(item_layout)
         item.setSizeHint(item_widget.sizeHint())
-        self.list_widget.addItem(item)
-        self.list_widget.setItemWidget(item, item_widget)
+        self.addItem(item)
+        self.setItemWidget(item, item_widget)
 
-    def load_list(self):
-        self.list_widget.clear()
-        suino_list = self.suino_service.get_suinos()
-        for suino in suino_list:
-            self.addItem(suino)
+    def setList(self, suino_list: list[Suino]):
+        self.clear()
+        self.suino_list = suino_list
+        self.init_list()
 
-    def show_dialog(self):
-        dialog = DialogWidget("Deseja excluir esse registro?")
+    def init_list(self):
+        for suino in self.suino_list:
+            self.addCustomItem(suino)
 
-        # Exibir o diálogo e aguardar a resposta
-        if dialog.exec_() == QDialog.Accepted:
-            input_text = dialog.get_input_text()
-            print(f"Texto inserido: {input_text}")
-        else:
-            print("Diálogo cancelado")
-
-    def show_details(self, title: str):
+    """def show_details(self, title: str):
         if not self.details_widget or not self.details_widget.isVisible():
             self.details_widget = DetailsSuinoDialog(title)
-            self.details_widget.exec_()
+            self.details_widget.exec_()"""

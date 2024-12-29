@@ -18,6 +18,7 @@ from PyQt5.QtGui import QIcon
 
 from data.connection.Connection import Connection
 from data.service.SuinoService import SuinoService
+from model.Circle import Circle
 from presentation.dialogs.Messagens import show_error_message
 from presentation.style.style import Style
 from assets.strings import Strings
@@ -26,7 +27,8 @@ from assets.strings import Strings
 class SuinoFormDialog(QDialog):
     dialog_closed = pyqtSignal(bool)
 
-    def __init__(self):
+    def __init__(self, circle: Circle):
+        self.circle = circle
         super().__init__()
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         self.setWindowIcon(QIcon("src/images/icon_window.png"))
@@ -122,10 +124,12 @@ class SuinoFormDialog(QDialog):
             result = self.suino_service.create_suino(
                 id_tag=id_tag,
                 id_uuid=uuid.uuid4(),
+                id_uuid_circle=self.circle.id_uuid,
                 race=race,
                 date_birth=date_birth,
                 gender=gender,
                 origin=origin,
+                is_active=True,
                 registration_date=registration_date,
             )
 

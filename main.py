@@ -8,8 +8,6 @@ from data.service.InstalationService import InstalationService
 from model.Instalation import Instalation
 from presentation.MainPanel import MainPanel
 
-sys.dont_write_bytecode = True
-
 
 def main():
     app = QApplication(sys.argv)

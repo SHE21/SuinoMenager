@@ -1,6 +1,7 @@
 from datetime import date
 from data.connection.Connection import Connection
 from data.model import SuinoModel
+from model.Circle import Circle
 from model.Suino import Suino
 
 
@@ -14,20 +15,24 @@ class SuinoService:
         self,
         id_tag: str,
         id_uuid: str,
+        id_uuid_circle: str,
         race: str,
         date_birth: date,
         gender: str,
         origin: str,
+        is_active: bool,
         registration_date: date,
     ):
         try:
             result = self.suino_model.create(
                 id_tag=id_tag,
                 id_uuid=id_uuid,
+                id_uuid_circle=id_uuid_circle,
                 race=race,
                 date_birth=date_birth,
                 gender=gender,
                 origin=origin,
+                is_active=is_active,
                 registration_date=registration_date,
             )
             return result
@@ -35,18 +40,28 @@ class SuinoService:
         except Exception as e:
             return None
 
-    def get_suino_by_uuid(self, id_uuid: str) -> Suino:
-        suino_result = self.suino_model.get(self.suino_model.id_uuid == id_uuid)
-        return Suino(
-            id=suino_result.id,
-            id_uuid=suino_result.id_uuid,
-            id_tag=suino_result.id_tag,
-            race=suino_result.race,
-            date_birth=suino_result.date_birth,
-            gender=suino_result.gender,
-            origin=suino_result.origin,
-            registration_date=suino_result.registration_date,
+    def get_suino_by_uuid(self, circle: Circle) -> list[Suino]:
+        suino_result = self.suino_model.select().where(
+            self.suino_model.id_uuid_circle == circle.id_uuid
         )
+
+        suino_list = []
+        for suino in suino_result:
+            suino_list.append(
+                Suino(
+                    id=suino.id,
+                    id_uuid=suino.id_uuid,
+                    id_uuid_circle=suino.id_uuid_circle,
+                    id_tag=suino.id_tag,
+                    race=suino.race,
+                    date_birth=suino.date_birth,
+                    gender=suino.gender,
+                    origin=suino.origin,
+                    is_active=suino.is_active,
+                    registration_date=suino.registration_date,
+                )
+            )
+        return suino_list
 
     def get_suinos(self) -> list[Suino]:
         suino_list_db = self.suino_model.select()
