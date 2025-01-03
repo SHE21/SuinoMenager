@@ -46,14 +46,18 @@ class BaiaManagerDialog(QMainWindow):
         self.setFixedSize(934, 858)
         self.setContentsMargins(7, 7, 7, 0)
         self.connection = Connection()
+        self.suino_service = SuinoService(self.connection)
+        self.set_circle()
+        self.init_layout_center()
+
+    def set_circle(self) -> Circle:
         self.circle_service = CircleService(self.connection)
-        circle_result_service = self.circle_service.get_circles_by_uuid_baia(baia=baia)
+        circle_result_service = self.circle_service.get_circles_by_uuid_baia(
+            baia=self.baia
+        )
         self.circle: Circle = (
             circle_result_service[0] if circle_result_service else None
         )
-        self.suino_service = SuinoService(self.connection)
-
-        self.init_layout_center()
 
     def init_layout_center(self):
         self.central_widget = QWidget(self)
@@ -63,7 +67,8 @@ class BaiaManagerDialog(QMainWindow):
         self.layout_center.addWidget(self.init_grid())
         self.layout_center.addWidget(self.init_toolbar())
         self.layout_center.addWidget(self.init_list())
-        self.load_list_suino()
+        if self.circle is not None:
+            self.load_list_suino()
         self.central_widget.setLayout(self.layout_center)
         self.setCentralWidget(self.central_widget)
 

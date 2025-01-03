@@ -27,6 +27,7 @@ from data.connection.Connection import Connection
 from data.service.BaiaService import BaiaService
 from data.service.InstalationService import InstalationService
 from model.Baia import Baia
+from model.Circle import Circle
 from model.Instalation import Instalation
 from presentation.BaiaFormDialog import BaiaFormDialog
 from presentation.BaiaFormWidget import BaiaFormWidget
@@ -59,6 +60,7 @@ class MainPanel(QMainWindow):
         self.resize(screen_geometry.width() - 100, screen_geometry.height() - 200)
 
         self.add_suino = None
+        self.selected_instalation = None
 
         # Layouts
         self.init_layout_center()
@@ -113,10 +115,6 @@ class MainPanel(QMainWindow):
         if not self.baia_manager_dialog.isVisible():
             self.baia_manager_dialog.show()
 
-    def open_click_register_circle(self, baia: Baia):
-        circle_create_form = CircleForm(baia=baia, circle_list=circle_list_combo)
-        circle_create_form.exec_()
-
     def init_content_layout_left(self):
         self.instalation_service = InstalationService(self.connection)
         instalation_list_result = self.instalation_service.get_instalation_list()
@@ -159,12 +157,23 @@ class MainPanel(QMainWindow):
             print("O diálogo foi fechado com Cancelar.")
 
     def open_dialog_details(self, instalation: Instalation):
-        self.right_content.updated_content(instalation)
+        self.selected_instalation = instalation
+        self.right_content.updated_content(self.selected_instalation)
 
     def open_instalation_form(self):
         instalation_dialog = InstalationFormDialog()
         instalation_dialog.dialog_closed.connect(self.on_dialog_closed)
         instalation_dialog.exec_()
+
+    @pyqtSlot()
+    def open_click_register_circle(self, baia: Baia):
+        circle_create_form = CircleForm(baia=baia, circle_list=circle_list_combo)
+        circle_create_form.signal_register_circle.connect(self.callback_register_circle)
+        circle_create_form.exec_()
+
+    @pyqtSlot(Circle)
+    def callback_register_circle(self, circle):
+        self.right_content.updated_content(self.selected_instalation)
 
     @pyqtSlot()
     def open_form_add_suino(self):

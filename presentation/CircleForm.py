@@ -27,7 +27,7 @@ from assets.strings import Strings
 
 
 class CircleForm(QDialog):
-    dialog_closed = pyqtSignal(bool)
+    signal_register_circle = pyqtSignal(Circle)
 
     def __init__(self, baia: Baia, circle_list: list[Circle]):
         super().__init__()
@@ -100,9 +100,10 @@ class CircleForm(QDialog):
         observation = self.observation_input.text()
         is_ended = False
         registration_date = datetime.now().strftime("%Y-%m-%d")
+        id_uuid = uuid.uuid4()
 
         result = self.circle_service.create_circle(
-            id_uuid=uuid.uuid4(),
+            id_uuid=id_uuid,
             id_uuid_baia=baia.id_uuid,
             circle_name=circle_name,
             start_date=start_date,
@@ -112,8 +113,24 @@ class CircleForm(QDialog):
             registration_date=registration_date,
         )
 
+        if result:
+            circle = Circle(
+                result,
+                id_uuid=id_uuid,
+                id_uuid_baia=baia.id_uuid,
+                circle_name=circle_name,
+                start_date=start_date,
+                end_date=end_date,
+                observation=observation,
+                daily_status=None,
+                is_ended=is_ended,
+                registration_date=registration_date,
+            )
+        else:
+            circle = None
+
         if result is not None:
-            self.dialog_closed.emit(True)
+            self.signal_register_circle.emit(circle)
         else:
             print("Erro ao salva o ciclo")
 
@@ -121,5 +138,7 @@ class CircleForm(QDialog):
 
     @pyqtSlot()
     def reject(self):
-        self.dialog_closed.emit(False)
+        self.signal_register_circle.emit(
+            Circle(None, None, None, None, None, None, None, None, None, None)
+        )
         super().reject()
