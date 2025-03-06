@@ -1,6 +1,9 @@
 # Gerenciador de Granja de Suínos
+![Captura de tela 2025-03-06 091545](https://github.com/user-attachments/assets/a4814b5c-f3ba-437f-8412-7c6afbd01bca)
+![Captura de tela 2025-03-06 091611](https://github.com/user-attachments/assets/833b6be5-7b94-4e56-a1c9-0172441a0d1d)
 
-## Descrição
+## Descrição!
+
 O **Gerenciador de Granja de Suínos** é um software desenvolvido para facilitar a administração de granjas, permitindo a visualização e controle das baias de porcos de forma interativa. O sistema inclui um mapa dinâmico das baias, com dimensões reais e capacidade de lotação, além da possibilidade de integração com sensores de temperatura e outras métricas em tempo real.
 
 ## Funcionalidades
